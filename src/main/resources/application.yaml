@@ -1,0 +1,90 @@
+spring:
+  application:
+    name: PTIT Encyclopedia BE
+  profiles:
+    active: ${ACTIVE_PROFILE:dev}
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: ${JPA_DDL_AUTO}
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MariaDBDialect
+        format_sql: true
+    show-sql: ${SHOW_SQL}
+  redis:
+    host: ${REDIS_HOST}
+    port: ${REDIS_PORT}
+    password: ${REDIS_PASSWORD}
+    timeout: ${REDIS_TIMEOUT}
+    database: ${REDIS_DATABASE}
+  mail:
+    host: ${MAIL_HOST}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    port: ${MAIL_PORT}
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    enabled: true
+    check-template-location: true
+    mode: HTML
+#  security:
+#    oauth2:
+#      client:
+#        registration:
+#          google:
+#            client-id: ${GOOGLE_CLIENT_ID}
+#            client-secret: ${GOOGLE_CLIENT_SECRET}
+#            scope:
+#              - profile
+#              - email
+#          facebook:
+#            client-id: ${FACEBOOK_CLIENT_ID}
+#            client-secret: ${FACEBOOK_CLIENT_SECRET}
+#            scope:
+#              - public_profile
+#              - email
+#        provider:
+#          facebook:
+#            user-info-uri: https://graph.facebook.com/me?fields=id,name,email,picture
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+server:
+  port: ${SERVER_PORT}
+api:
+  prefix: ${API_PREFIX}
+
+jwt:
+  accessKey: ${JWT_ACCESS_KEY}
+  refreshKey: ${JWT_REFRESH_KEY}
+  resetPasswordKey: ${JWT_RESET_PASSWORD_KEY}
+  expiration:
+    time:
+      access: ${JWT_ACCESS_TIME}
+      refresh: ${JWT_REFRESH_TIME}
+      resetPassword: ${JWT_RESET_PASSWORD_TIME}
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    path: ${SWAGGER_PATH}
+    enabled: true
+login:
+  max:
+    attempts: ${LOGIN_MAX_ATTEMPTS}
+
+register:
+  max:
+    attempts: ${REGISTER_MAX_ATTEMPTS}
+
+request:
+  max:
+    attempts: ${REQUEST_MAX_ATTEMPTS}
