@@ -1,12 +1,13 @@
 package com.project.ptittoanthu.common.exception;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.project.ptittoanthu.authentication.exception.EmailExistsException;
-import com.project.ptittoanthu.authentication.exception.UserIsAvtiveException;
-import com.project.ptittoanthu.authentication.exception.UserNotFoundException;
-import com.project.ptittoanthu.common.builder.ResponseBuilder;
-import com.project.ptittoanthu.common.dto.ResponseDto;
-import com.project.ptittoanthu.common.enums.StatusCodeEnum;
+import com.project.ptittoanthu.users.exception.EmailExistsException;
+import com.project.ptittoanthu.users.exception.PasswordNotMatches;
+import com.project.ptittoanthu.users.exception.UserIsAvtiveException;
+import com.project.ptittoanthu.users.exception.UserNotFoundException;
+import com.project.ptittoanthu.common.base.builder.ResponseBuilder;
+import com.project.ptittoanthu.common.base.dto.ResponseDto;
+import com.project.ptittoanthu.common.base.enums.StatusCodeEnum;
 import com.project.ptittoanthu.infra.language.LanguageService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -57,6 +58,7 @@ public class GlobalExceptionHandler {
         EXCEPTION_STATUS_MAP.put(OtpInvalidException.class, StatusCodeEnum.OTP_INVALID);
         EXCEPTION_STATUS_MAP.put(UserIsAvtiveException.class, StatusCodeEnum.USER_IS_ACTIVE);
         EXCEPTION_STATUS_MAP.put(IOException.class, StatusCodeEnum.FILE_ERROR);
+        EXCEPTION_STATUS_MAP.put(PasswordNotMatches.class, StatusCodeEnum.PASSWORD_NOT_MATCHES);
     }
 
     /**
@@ -68,7 +70,8 @@ public class GlobalExceptionHandler {
         AuthenticationException.class, BadCredentialsException.class,
         AuthorizationDeniedException.class, JWTVerificationException.class,
         UsernameNotFoundException.class, OtpInvalidException.class,
-        UserIsAvtiveException.class, IOException.class
+        UserIsAvtiveException.class, IOException.class,
+        PasswordNotMatches.class
     })
     public ResponseEntity<ResponseDto<Void>> handleMappedExceptions(Exception e) {
         log.error("Exception occurred: {}", e.getMessage());

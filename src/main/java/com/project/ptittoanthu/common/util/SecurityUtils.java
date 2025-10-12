@@ -1,6 +1,6 @@
 package com.project.ptittoanthu.common.util;
 
-import com.project.ptittoanthu.authentication.model.User;
+import com.project.ptittoanthu.users.model.User;
 import lombok.experimental.UtilityClass;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

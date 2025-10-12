@@ -1,9 +1,9 @@
 package com.project.ptittoanthu.common.exception;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.project.ptittoanthu.common.builder.ResponseBuilder;
-import com.project.ptittoanthu.common.dto.ResponseDto;
-import com.project.ptittoanthu.common.enums.StatusCodeEnum;
+import com.project.ptittoanthu.common.base.builder.ResponseBuilder;
+import com.project.ptittoanthu.common.base.dto.ResponseDto;
+import com.project.ptittoanthu.common.base.enums.StatusCodeEnum;
 import com.project.ptittoanthu.infra.language.LanguageService;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

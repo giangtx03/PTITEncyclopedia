@@ -1,6 +1,6 @@
 package com.project.ptittoanthu.infra.redis;
 
-import com.project.ptittoanthu.common.enums.KeyTypeEnum;
+import com.project.ptittoanthu.common.base.enums.KeyTypeEnum;
 import com.project.ptittoanthu.common.util.RedisUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;

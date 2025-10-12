@@ -1,6 +1,6 @@
 package com.project.ptittoanthu.configs.security;
 
-import com.project.ptittoanthu.authentication.repository.UserRepository;
+import com.project.ptittoanthu.users.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
