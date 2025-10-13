@@ -1,5 +1,6 @@
 package com.project.ptittoanthu.users.dto.response;
 
+import com.project.ptittoanthu.configs.aop.ImageField;
 import com.project.ptittoanthu.users.model.Role;
 import com.project.ptittoanthu.common.base.dto.BaseResponse;
 import lombok.AllArgsConstructor;
@@ -19,6 +20,7 @@ public class UserResponse extends BaseResponse {
     private String id;
     private String username;
     private String email;
+    @ImageField
     private String avatar;
     private String address;
     private LocalDate dob;
