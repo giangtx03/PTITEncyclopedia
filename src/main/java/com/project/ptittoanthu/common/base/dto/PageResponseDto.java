@@ -12,5 +12,5 @@ import lombok.experimental.SuperBuilder;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PageResponseDto<T> extends ResponseDto<T>{
-    private MetaData metaData;
+    private MetaDataResponse metaDataResponse;
 }

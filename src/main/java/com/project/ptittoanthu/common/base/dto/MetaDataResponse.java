@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MetaData {
+public class MetaDataResponse {
     private int currentPage;
     private int pageSize;
     private int totalPage;

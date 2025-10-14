@@ -8,7 +8,6 @@ import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
-import java.util.Locale;
 import java.util.Objects;
 
 @Service

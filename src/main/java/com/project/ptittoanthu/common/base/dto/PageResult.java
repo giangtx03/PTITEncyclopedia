@@ -13,5 +13,5 @@ import lombok.Setter;
 @NoArgsConstructor
 public class PageResult <T> {
     private T data;
-    private MetaData metaData;
+    private MetaDataResponse metaDataResponse;
 }
