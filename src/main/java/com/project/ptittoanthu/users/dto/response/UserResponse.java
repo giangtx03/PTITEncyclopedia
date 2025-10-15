@@ -1,8 +1,6 @@
 package com.project.ptittoanthu.users.dto.response;
 
-import com.project.ptittoanthu.configs.aop.ImageField;
 import com.project.ptittoanthu.users.model.Role;
-import com.project.ptittoanthu.common.base.dto.BaseResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

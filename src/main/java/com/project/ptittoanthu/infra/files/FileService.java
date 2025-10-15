@@ -1,4 +1,4 @@
-package com.project.ptittoanthu.infra.images;
+package com.project.ptittoanthu.infra.files;
 
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
@@ -10,5 +10,5 @@ import java.net.MalformedURLException;
 public interface FileService {
     String upload(MultipartFile file) throws IOException;
     Resource download(String filename) throws FileNotFoundException, MalformedURLException;
-    void delete(String path) throws IOException;
+    void delete(String filename) throws IOException;
 }

@@ -1,6 +1,6 @@
 package com.project.ptittoanthu.images;
 
-import com.project.ptittoanthu.infra.images.FileService;
+import com.project.ptittoanthu.infra.files.FileService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;

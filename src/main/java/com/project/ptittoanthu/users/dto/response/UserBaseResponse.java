@@ -1,7 +1,8 @@
 package com.project.ptittoanthu.users.dto.response;
 
+import com.project.ptittoanthu.common.base.constant.PropertyUrlConstant;
 import com.project.ptittoanthu.common.base.dto.BaseResponse;
-import com.project.ptittoanthu.configs.aop.ImageField;
+import com.project.ptittoanthu.configs.aop.UrlPrefix;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,6 @@ import lombok.experimental.SuperBuilder;
 public class UserBaseResponse extends BaseResponse {
     private String id;
     private String username;
-    @ImageField
+    @UrlPrefix(property = PropertyUrlConstant.IMAGE_URL)
     private String avatar;
 }

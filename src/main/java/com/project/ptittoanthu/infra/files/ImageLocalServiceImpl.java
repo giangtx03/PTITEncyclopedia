@@ -1,5 +1,6 @@
-package com.project.ptittoanthu.infra.images;
+package com.project.ptittoanthu.infra.files;
 
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.Resource;
@@ -20,8 +21,21 @@ import java.util.UUID;
 @Service("image-local")
 @Primary
 public class ImageLocalServiceImpl implements FileService {
-    @Value("${images.path}")
+    @Value("${image.path}")
     private String path;
+    private Path rootLocation;
+
+    @PostConstruct
+    public void init() {
+        try {
+            rootLocation = Paths.get(path);
+            if (Files.notExists(rootLocation)) {
+                Files.createDirectories(rootLocation);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException("Could not initialize storage location", e);
+        }
+    }
 
     @Override
     public String upload(MultipartFile file) throws IOException {
@@ -36,11 +50,6 @@ public class ImageLocalServiceImpl implements FileService {
         String uniqueFilename = UUID.randomUUID().toString() + "." + contentType;
 
         Path uploadDir = Paths.get(path);
-
-        if (!Files.exists(uploadDir)) {
-            Files.createDirectory(uploadDir);
-        }
-
         Path destination = Paths.get(uploadDir.toString(), uniqueFilename);
 
         Files.copy(file.getInputStream(), destination, StandardCopyOption.REPLACE_EXISTING);
