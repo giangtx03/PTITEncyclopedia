@@ -2,6 +2,7 @@ package com.project.ptittoanthu.users.service;
 
 import com.project.ptittoanthu.users.dto.request.ChangePasswordRequest;
 import com.project.ptittoanthu.users.dto.request.UpdateProfileRequest;
+import com.project.ptittoanthu.users.dto.response.UserBaseResponse;
 import com.project.ptittoanthu.users.dto.response.UserResponse;
 
 import java.io.IOException;
@@ -13,7 +14,7 @@ public interface UserService {
 
     void deleteProfile();
 
-    UserResponse getOtherProfile(String id);
+    UserBaseResponse getOtherProfile(Integer id);
 
     void changePassword(ChangePasswordRequest request);
 }

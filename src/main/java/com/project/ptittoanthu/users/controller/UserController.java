@@ -2,6 +2,7 @@ package com.project.ptittoanthu.users.controller;
 
 import com.project.ptittoanthu.users.dto.request.ChangePasswordRequest;
 import com.project.ptittoanthu.users.dto.request.UpdateProfileRequest;
+import com.project.ptittoanthu.users.dto.response.UserBaseResponse;
 import com.project.ptittoanthu.users.dto.response.UserResponse;
 import com.project.ptittoanthu.common.base.builder.ResponseBuilder;
 import com.project.ptittoanthu.common.base.dto.ResponseDto;
@@ -87,15 +88,15 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseDto<UserResponse>> changePassword(
-            @PathVariable String id
+    public ResponseEntity<ResponseDto<UserBaseResponse>> changePassword(
+            @PathVariable Integer id
     ) {
 
-        UserResponse userResponse = userService.getOtherProfile(id);
+        UserBaseResponse userResponse = userService.getOtherProfile(id);
 
         StatusCodeEnum statusCodeEnum = StatusCodeEnum.REQUEST_SUCCESSFULLY;
 
-        ResponseDto<UserResponse> responseDto = ResponseBuilder.okResponse(
+        ResponseDto<UserBaseResponse> responseDto = ResponseBuilder.okResponse(
                 statusCodeEnum.code,
                 languageService.getMessage(statusCodeEnum.message),
                 userResponse

@@ -1,9 +1,10 @@
 package com.project.ptittoanthu.users.service.impl;
 
 import com.project.ptittoanthu.common.util.SecurityUtils;
-import com.project.ptittoanthu.infra.images.FileService;
+import com.project.ptittoanthu.infra.files.FileService;
 import com.project.ptittoanthu.users.dto.request.ChangePasswordRequest;
 import com.project.ptittoanthu.users.dto.request.UpdateProfileRequest;
+import com.project.ptittoanthu.users.dto.response.UserBaseResponse;
 import com.project.ptittoanthu.users.dto.response.UserResponse;
 import com.project.ptittoanthu.users.exception.PasswordNotMatches;
 import com.project.ptittoanthu.users.exception.UserNotFoundException;
@@ -65,10 +66,10 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse getOtherProfile(String id) {
+    public UserBaseResponse getOtherProfile(Integer id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(""));
-        return userMapper.toResponse(user);
+        return userMapper.toBaseResponse(user);
     }
 
     @Override
