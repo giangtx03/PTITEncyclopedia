@@ -61,15 +61,9 @@ public class FacultyServiceImpl implements FacultyService {
 
     @Override
     public PageResult<List<FacultyResponse>> getFaculties(SearchRequest searchRequest) {
-        Page<Faculty> facultyPage;
         Sort sort = SortHelper.buildSort(searchRequest.getOrder(), searchRequest.getDirection());
         Pageable pageable = PageRequest.of(searchRequest.getCurrentPage() - 1, searchRequest.getPageSize(), sort);
-        try {
-            Integer id = Integer.valueOf(searchRequest.getKeyword());
-            facultyPage = facultyRepository.findAllBySearchRequest(id, searchRequest.getKeyword(), pageable);
-        } catch (NumberFormatException e) {
-            facultyPage = facultyRepository.findAllBySearchRequest(null, searchRequest.getKeyword(), pageable);
-        }
+        Page<Faculty> facultyPage = facultyRepository.findAllBySearchRequest(searchRequest.getKeyword(), pageable);
         MetaDataResponse metaDataResponse = MetaDataHelper.buildMetaData(facultyPage, searchRequest);
         List<FacultyResponse> facultyResponses = facultyPage.getContent().stream().map(
                 facultyMapper::toFacultyResponse

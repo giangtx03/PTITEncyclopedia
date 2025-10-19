@@ -22,8 +22,6 @@ public interface FacultyRepository extends JpaRepository<Faculty, Integer> {
             SELECT f FROM Faculty f WHERE
             (:keyword IS NULL OR LOWER(f.name) LIKE LOWER(CONCAT('%', :keyword, '%')) 
                 OR LOWER(f.code) LIKE LOWER(CONCAT('%', :keyword, '%')))
-            AND
-            (:id IS NULL OR f.id = :id)
             """)
-    Page<Faculty> findAllBySearchRequest(@Param("id") Integer id, @Param("keyword") String keyword, Pageable pageable);
+    Page<Faculty> findAllBySearchRequest(@Param("keyword") String keyword, Pageable pageable);
 }
