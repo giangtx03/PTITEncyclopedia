@@ -104,7 +104,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Transactional
-
+    @Override
     public void activateAccount(VerifyOtpRequest request) {
         String key = RedisUtils.createKey(KeyTypeEnum.ACTIVE.value, request.getEmail());
         if (!validateOtp(key, request.getOtp())) {

@@ -34,7 +34,7 @@ public class ResponseBuilder {
                 .message(message)
                 .statusCode(code)
                 .data(result.getData())
-                .metaDataResponse(result.getMetaDataResponse())
+                .metadata(result.getMetaDataResponse())
                 .time(OffsetDateTime.now())
                 .build();
     }

@@ -15,7 +15,7 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @SuperBuilder
 public class UserBaseResponse extends BaseResponse {
-    private String id;
+    private Integer id;
     private String username;
     @UrlPrefix(property = PropertyUrlConstant.IMAGE_URL)
     private String avatar;
