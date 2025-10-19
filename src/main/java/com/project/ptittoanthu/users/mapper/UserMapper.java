@@ -12,8 +12,6 @@ import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import java.lang.annotation.Target;
-
 @Mapper(componentModel = "spring", imports = {Role.class})
 public interface UserMapper {
     UserResponse toResponse(User user);

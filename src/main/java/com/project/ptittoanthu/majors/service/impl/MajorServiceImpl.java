@@ -2,10 +2,8 @@ package com.project.ptittoanthu.majors.service.impl;
 
 import com.project.ptittoanthu.common.base.dto.MetaDataResponse;
 import com.project.ptittoanthu.common.base.dto.PageResult;
-import com.project.ptittoanthu.common.base.dto.SearchRequest;
 import com.project.ptittoanthu.common.helper.MetaDataHelper;
 import com.project.ptittoanthu.common.helper.SortHelper;
-import com.project.ptittoanthu.faculties.dto.FacultyResponse;
 import com.project.ptittoanthu.faculties.exception.FacultyNotFoundException;
 import com.project.ptittoanthu.faculties.model.Faculty;
 import com.project.ptittoanthu.faculties.repository.FacultyRepository;
