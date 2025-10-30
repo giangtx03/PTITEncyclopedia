@@ -1,6 +1,6 @@
 package com.project.ptittoanthu.majors.dto;
 
-import com.project.ptittoanthu.common.base.dto.BaseResponse;
+import com.project.ptittoanthu.faculties.dto.FacultyResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,8 +12,6 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @Setter
 @SuperBuilder
-public class MajorResponse extends BaseResponse {
-    Integer id;
-    String name;
-    String code;
+public class MajorResponseDetail extends MajorResponse {
+    FacultyResponse faculty;
 }

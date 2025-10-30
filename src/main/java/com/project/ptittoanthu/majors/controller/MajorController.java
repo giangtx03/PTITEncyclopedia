@@ -8,6 +8,7 @@ import com.project.ptittoanthu.common.base.enums.StatusCodeEnum;
 import com.project.ptittoanthu.infra.language.LanguageService;
 import com.project.ptittoanthu.majors.dto.CreateMajorRequest;
 import com.project.ptittoanthu.majors.dto.MajorResponse;
+import com.project.ptittoanthu.majors.dto.MajorResponseDetail;
 import com.project.ptittoanthu.majors.dto.MajorSearchRequest;
 import com.project.ptittoanthu.majors.dto.UpdateMajorRequest;
 import com.project.ptittoanthu.majors.service.MajorService;
@@ -36,14 +37,14 @@ public class MajorController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
-    public ResponseEntity<ResponseDto<MajorResponse>> createMajor(
+    public ResponseEntity<ResponseDto<MajorResponseDetail>> createMajor(
             @Valid @ParameterObject CreateMajorRequest request
     ) {
-        MajorResponse majorResponse = majorService.createMajor(request);
+        MajorResponseDetail majorResponse = majorService.createMajor(request);
 
         StatusCodeEnum statusCodeEnum = StatusCodeEnum.REQUEST_SUCCESSFULLY;
 
-        ResponseDto<MajorResponse> responseDto = ResponseBuilder.okResponse(
+        ResponseDto<MajorResponseDetail> responseDto = ResponseBuilder.okResponse(
                 statusCodeEnum.code,
                 languageService.getMessage(statusCodeEnum.message),
                 majorResponse
@@ -55,14 +56,14 @@ public class MajorController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping
-    public ResponseEntity<ResponseDto<MajorResponse>> updateMajor(
+    public ResponseEntity<ResponseDto<MajorResponseDetail>> updateMajor(
             @Valid @ParameterObject UpdateMajorRequest request
     ) {
-        MajorResponse majorResponse = majorService.updateMajor(request);
+        MajorResponseDetail majorResponse = majorService.updateMajor(request);
 
         StatusCodeEnum statusCodeEnum = StatusCodeEnum.REQUEST_SUCCESSFULLY;
 
-        ResponseDto<MajorResponse> responseDto = ResponseBuilder.okResponse(
+        ResponseDto<MajorResponseDetail> responseDto = ResponseBuilder.okResponse(
                 statusCodeEnum.code,
                 languageService.getMessage(statusCodeEnum.message),
                 majorResponse
@@ -92,14 +93,14 @@ public class MajorController {
 
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseDto<MajorResponse>> getMajor(
+    public ResponseEntity<ResponseDto<MajorResponseDetail>> getMajor(
             @PathVariable Integer id
     ) {
-        MajorResponse majorResponse = majorService.getMajor(id);
+        MajorResponseDetail majorResponse = majorService.getMajor(id);
 
         StatusCodeEnum statusCodeEnum = StatusCodeEnum.REQUEST_SUCCESSFULLY;
 
-        ResponseDto<MajorResponse> responseDto = ResponseBuilder.okResponse(
+        ResponseDto<MajorResponseDetail> responseDto = ResponseBuilder.okResponse(
                 statusCodeEnum.code,
                 languageService.getMessage(statusCodeEnum.message),
                 majorResponse

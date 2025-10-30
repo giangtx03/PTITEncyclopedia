@@ -9,6 +9,7 @@ import com.project.ptittoanthu.faculties.model.Faculty;
 import com.project.ptittoanthu.faculties.repository.FacultyRepository;
 import com.project.ptittoanthu.majors.dto.CreateMajorRequest;
 import com.project.ptittoanthu.majors.dto.MajorResponse;
+import com.project.ptittoanthu.majors.dto.MajorResponseDetail;
 import com.project.ptittoanthu.majors.dto.MajorSearchRequest;
 import com.project.ptittoanthu.majors.dto.UpdateMajorRequest;
 import com.project.ptittoanthu.majors.exception.MajorCodeException;
@@ -38,7 +39,7 @@ public class MajorServiceImpl implements MajorService {
 
     @Transactional
     @Override
-    public MajorResponse createMajor(CreateMajorRequest request) {
+    public MajorResponseDetail createMajor(CreateMajorRequest request) {
         if (majorRepository.existsByCode(request.getCode()))
             throw new MajorCodeException("Code existed");
 
@@ -48,12 +49,12 @@ public class MajorServiceImpl implements MajorService {
         Major major = majorMapper.toMajor(request);
         major.setFaculty(faculty);
         majorRepository.save(major);
-        return majorMapper.toMajorResponse(major);
+        return majorMapper.toMajorResponseDetail(major);
     }
 
     @Transactional
     @Override
-    public MajorResponse updateMajor(UpdateMajorRequest request) {
+    public MajorResponseDetail updateMajor(UpdateMajorRequest request) {
         Major major = majorRepository.findById(request.getId())
                 .orElseThrow(() -> new MajorNotFoundException(""));
 
@@ -66,29 +67,29 @@ public class MajorServiceImpl implements MajorService {
         majorMapper.updateMajor(request, major);
         major.setFaculty(faculty);
         majorRepository.save(major);
-        return majorMapper.toMajorResponse(major);
+        return majorMapper.toMajorResponseDetail(major);
     }
 
     @Override
     public PageResult<List<MajorResponse>> getMajors(MajorSearchRequest searchRequest) {
         Sort sort = SortHelper.buildSort(searchRequest.getOrder(), searchRequest.getDirection());
         Pageable pageable = PageRequest.of(searchRequest.getCurrentPage() - 1, searchRequest.getPageSize(), sort);
-        Page<Major> majorPage = majorRepository.findAllBySearchRequest(searchRequest.getFacultyId() ,searchRequest.getKeyword(), pageable);
+        Page<Major> majorPage = majorRepository.findAllBySearchRequest(searchRequest.getFacultyId(), searchRequest.getKeyword(), pageable);
         MetaDataResponse metaDataResponse = MetaDataHelper.buildMetaData(majorPage, searchRequest);
-        List<MajorResponse> facultyResponses = majorPage.getContent().stream().map(
+        List<MajorResponse> majorResponses = majorPage.getContent().stream().map(
                 majorMapper::toMajorResponse
         ).toList();
         return PageResult.<List<MajorResponse>>builder()
                 .metaDataResponse(metaDataResponse)
-                .data(facultyResponses)
+                .data(majorResponses)
                 .build();
     }
 
     @Override
-    public MajorResponse getMajor(Integer id) {
+    public MajorResponseDetail getMajor(Integer id) {
         Major major = majorRepository.findById(id)
                 .orElseThrow(() -> new MajorNotFoundException(""));
-        return majorMapper.toMajorResponse(major);
+        return majorMapper.toMajorResponseDetail(major);
     }
 
     @Override
