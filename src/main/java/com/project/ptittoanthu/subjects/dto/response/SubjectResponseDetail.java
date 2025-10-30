@@ -1,6 +1,6 @@
 package com.project.ptittoanthu.subjects.dto.response;
 
-import com.project.ptittoanthu.common.base.dto.BaseResponse;
+import com.project.ptittoanthu.majors.dto.MajorResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,8 +12,6 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @Setter
 @SuperBuilder
-public class SubjectResponse extends BaseResponse {
-    Integer id;
-    String name;
-    String code;
+public class SubjectResponseDetail extends SubjectResponse {
+    MajorResponse major;
 }
