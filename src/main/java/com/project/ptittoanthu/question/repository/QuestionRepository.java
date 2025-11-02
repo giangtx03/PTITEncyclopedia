@@ -1,0 +1,20 @@
+package com.project.ptittoanthu.question.repository;
+
+import com.project.ptittoanthu.question.model.Question;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.EntityGraph;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+public interface QuestionRepository extends JpaRepository<Question, Integer> {
+
+    @EntityGraph(attributePaths = {"options"})
+    @Query("""
+            SELECT q FROM Question q
+            LEFT JOIN q.quizzes quiz
+            WHERE (:quizId IS NULL OR quiz.id = :quizId)
+            """)
+    Page<Question> findAllBySearchRequest(@Param("quizId") Integer quizId, Pageable pageable);
+}

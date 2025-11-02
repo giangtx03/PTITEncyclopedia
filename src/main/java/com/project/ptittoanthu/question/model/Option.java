@@ -15,6 +15,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
+import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
@@ -25,12 +26,13 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
+@SuperBuilder
 public class Option extends BaseEntity {
     @Column(name = "value", nullable = false)
     String value;
 
-    @Column(name = "is_correct", nullable = false)
-    boolean isCorrect;
+    @Column(name = "correct", nullable = false)
+    boolean correct;
 
     @ManyToOne
     @JoinColumn(name = "question_id", referencedColumnName = "id")

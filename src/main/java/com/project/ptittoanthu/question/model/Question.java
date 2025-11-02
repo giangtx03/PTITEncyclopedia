@@ -19,6 +19,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
+import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
@@ -29,6 +30,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
+@SuperBuilder
 public class Question extends BaseEntity {
     @Column(name = "content", nullable = false)
     String content;
