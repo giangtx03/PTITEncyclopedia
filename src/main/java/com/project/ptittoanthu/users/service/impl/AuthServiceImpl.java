@@ -8,7 +8,7 @@ import com.project.ptittoanthu.users.dto.request.RegisterRequest;
 import com.project.ptittoanthu.users.dto.request.SetPasswordRequest;
 import com.project.ptittoanthu.users.dto.request.VerifyOtpRequest;
 import com.project.ptittoanthu.users.dto.response.LoginResponse;
-import com.project.ptittoanthu.users.dto.response.UserResponse;
+import com.project.ptittoanthu.users.dto.response.UserResponseDetail;
 import com.project.ptittoanthu.users.exception.EmailExistsException;
 import com.project.ptittoanthu.users.exception.UserIsAvtiveException;
 import com.project.ptittoanthu.users.exception.UserNotFoundException;
@@ -77,30 +77,30 @@ public class AuthServiceImpl implements AuthService {
 
         TokenDTO tokenDto = jwtProvider.generateToken(userModel);
 
-        UserResponse userResponse = userMapper.toResponse(userModel);
+        UserResponseDetail userResponseDetail = userMapper.toResponse(userModel);
         return LoginResponse.builder()
                 .accessToken(tokenDto.getAccessToken())
                 .refreshToken(tokenDto.getRefreshToken())
-                .user(userResponse)
+                .user(userResponseDetail)
                 .build();
     }
 
     @Override
     @Transactional
-    public UserResponse register(RegisterRequest registerRequest) throws MessagingException {
+    public UserResponseDetail register(RegisterRequest registerRequest) throws MessagingException {
         if (userRepo.existsByEmail(registerRequest.getEmail())) {
             throw new EmailExistsException("Email has existed");
         }
 
         User user = userMapper.toUser(registerRequest, passwordEncoder);
         User saved = userRepo.save(user);
-        UserResponse userResponse = userMapper.toResponse(saved);
+        UserResponseDetail userResponseDetail = userMapper.toResponse(saved);
 
         String otp = OtpGenerator.createOtp();
         saveOtp(KeyTypeEnum.ACTIVE, user.getEmail(), otp);
         mailSender.sendEmailAsync(user.getEmail(), "Xác thực đăng ký tài khoản",
                 EmailConstant.OTP_MAIL, Map.of("name", user.getUsername(), "otp", otp));
-        return userResponse;
+        return userResponseDetail;
     }
 
     @Transactional

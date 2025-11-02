@@ -9,8 +9,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.FileNotFoundException;
-import java.net.MalformedURLException;
+import java.io.IOException;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,8 +20,7 @@ public class ImageController {
 
     @GetMapping("/{fileName}")
     public ResponseEntity<?> getImage(@PathVariable("fileName") String fileName)
-            throws MalformedURLException, FileNotFoundException
-    {
+            throws IOException {
         Resource source = imageService.getImageFile(fileName);
         return ResponseEntity.ok()
                 .contentType(MediaType.IMAGE_JPEG)

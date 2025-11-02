@@ -5,7 +5,7 @@ import com.project.ptittoanthu.users.dto.request.RegisterRequest;
 import com.project.ptittoanthu.users.dto.request.SetPasswordRequest;
 import com.project.ptittoanthu.users.dto.request.VerifyOtpRequest;
 import com.project.ptittoanthu.users.dto.response.LoginResponse;
-import com.project.ptittoanthu.users.dto.response.UserResponse;
+import com.project.ptittoanthu.users.dto.response.UserResponseDetail;
 import jakarta.mail.MessagingException;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -25,7 +25,7 @@ public interface AuthService {
 
     void activateAccount(@Valid VerifyOtpRequest request);
 
-    UserResponse register(@Valid RegisterRequest registerRequest) throws MessagingException;
+    UserResponseDetail register(@Valid RegisterRequest registerRequest) throws MessagingException;
 
     LoginResponse login(@Valid LoginRequest loginRequest);
 }

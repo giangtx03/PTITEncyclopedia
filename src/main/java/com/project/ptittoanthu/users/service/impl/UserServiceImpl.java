@@ -4,8 +4,8 @@ import com.project.ptittoanthu.common.util.SecurityUtils;
 import com.project.ptittoanthu.infra.files.FileService;
 import com.project.ptittoanthu.users.dto.request.ChangePasswordRequest;
 import com.project.ptittoanthu.users.dto.request.UpdateProfileRequest;
-import com.project.ptittoanthu.users.dto.response.UserBaseResponse;
 import com.project.ptittoanthu.users.dto.response.UserResponse;
+import com.project.ptittoanthu.users.dto.response.UserResponseDetail;
 import com.project.ptittoanthu.users.exception.PasswordNotMatches;
 import com.project.ptittoanthu.users.exception.UserNotFoundException;
 import com.project.ptittoanthu.users.mapper.UserMapper;
@@ -31,7 +31,7 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public UserResponse getMe() {
+    public UserResponseDetail getMe() {
         String email = SecurityUtils.getUserEmailFromSecurity();
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UserNotFoundException(""));
@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserResponse updateProfile(UpdateProfileRequest profileRequest) throws IOException {
+    public UserResponseDetail updateProfile(UpdateProfileRequest profileRequest) throws IOException {
         String email = SecurityUtils.getUserEmailFromSecurity();
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UserNotFoundException(""));
@@ -66,7 +66,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserBaseResponse getOtherProfile(Integer id) {
+    public UserResponse getOtherProfile(Integer id) {
         User user = userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(""));
         return userMapper.toBaseResponse(user);

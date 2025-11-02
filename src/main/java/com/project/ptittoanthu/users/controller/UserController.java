@@ -2,8 +2,8 @@ package com.project.ptittoanthu.users.controller;
 
 import com.project.ptittoanthu.users.dto.request.ChangePasswordRequest;
 import com.project.ptittoanthu.users.dto.request.UpdateProfileRequest;
-import com.project.ptittoanthu.users.dto.response.UserBaseResponse;
 import com.project.ptittoanthu.users.dto.response.UserResponse;
+import com.project.ptittoanthu.users.dto.response.UserResponseDetail;
 import com.project.ptittoanthu.common.base.builder.ResponseBuilder;
 import com.project.ptittoanthu.common.base.dto.ResponseDto;
 import com.project.ptittoanthu.common.base.enums.StatusCodeEnum;
@@ -35,16 +35,16 @@ public class UserController {
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/me")
-    public ResponseEntity<ResponseDto<UserResponse>> getMe() {
+    public ResponseEntity<ResponseDto<UserResponseDetail>> getMe() {
 
-        UserResponse userResponse = userService.getMe();
+        UserResponseDetail userResponseDetail = userService.getMe();
 
         StatusCodeEnum statusCodeEnum = StatusCodeEnum.REQUEST_SUCCESSFULLY;
 
-        ResponseDto<UserResponse> responseDto = ResponseBuilder.okResponse(
+        ResponseDto<UserResponseDetail> responseDto = ResponseBuilder.okResponse(
                 statusCodeEnum.code,
                 languageService.getMessage(statusCodeEnum.message),
-                userResponse
+                userResponseDetail
         );
         return ResponseEntity
                 .status(statusCodeEnum.httpStatusCode)
@@ -53,17 +53,17 @@ public class UserController {
 
     @PreAuthorize("isAuthenticated()")
     @PutMapping(value = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<ResponseDto<UserResponse>> updateProfile(
+    public ResponseEntity<ResponseDto<UserResponseDetail>> updateProfile(
             @Valid @ModelAttribute UpdateProfileRequest request) throws IOException {
 
-        UserResponse userResponse = userService.updateProfile(request);
+        UserResponseDetail userResponseDetail = userService.updateProfile(request);
 
         StatusCodeEnum statusCodeEnum = StatusCodeEnum.REQUEST_SUCCESSFULLY;
 
-        ResponseDto<UserResponse> responseDto = ResponseBuilder.okResponse(
+        ResponseDto<UserResponseDetail> responseDto = ResponseBuilder.okResponse(
                 statusCodeEnum.code,
                 languageService.getMessage(statusCodeEnum.message),
-                userResponse
+                userResponseDetail
         );
         return ResponseEntity
                 .status(statusCodeEnum.httpStatusCode)
@@ -88,15 +88,15 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ResponseDto<UserBaseResponse>> changePassword(
+    public ResponseEntity<ResponseDto<UserResponse>> changePassword(
             @PathVariable Integer id
     ) {
 
-        UserBaseResponse userResponse = userService.getOtherProfile(id);
+        UserResponse userResponse = userService.getOtherProfile(id);
 
         StatusCodeEnum statusCodeEnum = StatusCodeEnum.REQUEST_SUCCESSFULLY;
 
-        ResponseDto<UserBaseResponse> responseDto = ResponseBuilder.okResponse(
+        ResponseDto<UserResponse> responseDto = ResponseBuilder.okResponse(
                 statusCodeEnum.code,
                 languageService.getMessage(statusCodeEnum.message),
                 userResponse

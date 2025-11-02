@@ -2,8 +2,8 @@ package com.project.ptittoanthu.users.mapper;
 
 import com.project.ptittoanthu.users.dto.request.RegisterRequest;
 import com.project.ptittoanthu.users.dto.request.UpdateProfileRequest;
-import com.project.ptittoanthu.users.dto.response.UserBaseResponse;
 import com.project.ptittoanthu.users.dto.response.UserResponse;
+import com.project.ptittoanthu.users.dto.response.UserResponseDetail;
 import com.project.ptittoanthu.users.model.Role;
 import com.project.ptittoanthu.users.model.User;
 import org.mapstruct.Context;
@@ -14,9 +14,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Mapper(componentModel = "spring", imports = {Role.class})
 public interface UserMapper {
-    UserResponse toResponse(User user);
+    UserResponseDetail toResponse(User user);
 
-    UserBaseResponse toBaseResponse(User user);
+    UserResponse toBaseResponse(User user);
 
     @Mapping(target = "role", expression = "java(Role.STUDENT)")
     @Mapping(target = "password", expression =

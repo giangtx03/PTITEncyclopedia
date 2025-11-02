@@ -5,7 +5,7 @@ import com.project.ptittoanthu.users.dto.request.RegisterRequest;
 import com.project.ptittoanthu.users.dto.request.VerifyOtpRequest;
 import com.project.ptittoanthu.users.dto.request.SetPasswordRequest;
 import com.project.ptittoanthu.users.dto.response.LoginResponse;
-import com.project.ptittoanthu.users.dto.response.UserResponse;
+import com.project.ptittoanthu.users.dto.response.UserResponseDetail;
 import com.project.ptittoanthu.users.service.AuthService;
 import com.project.ptittoanthu.common.base.builder.ResponseBuilder;
 import com.project.ptittoanthu.common.base.dto.ResponseDto;
@@ -66,7 +66,7 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<ResponseDto<UserResponse>> register(
+    public ResponseEntity<ResponseDto<UserResponseDetail>> register(
             @Valid @ParameterObject RegisterRequest registerRequest,
             HttpServletRequest httpRequest
     ) throws MessagingException, TooManyListenersException {
@@ -76,15 +76,15 @@ public class AuthController {
             throw new TooManyListenersException("60");
         }
 
-        UserResponse userResponse = authService.register(registerRequest);
+        UserResponseDetail userResponseDetail = authService.register(registerRequest);
         redisLimitService.increaseRegisterAttempts(ipAddress);
 
         StatusCodeEnum statusCodeEnum = StatusCodeEnum.REGISTER_SUCCESSFULLY;
 
-        ResponseDto<UserResponse> responseDto = ResponseBuilder.okResponse(
+        ResponseDto<UserResponseDetail> responseDto = ResponseBuilder.okResponse(
                 statusCodeEnum.code,
                 languageService.getMessage(statusCodeEnum.message),
-                userResponse
+                userResponseDetail
         );
         return ResponseEntity
                 .status(statusCodeEnum.httpStatusCode)

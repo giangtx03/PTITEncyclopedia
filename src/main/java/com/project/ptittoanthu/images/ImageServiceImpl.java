@@ -5,8 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
 
-import java.io.FileNotFoundException;
-import java.net.MalformedURLException;
+import java.io.IOException;
 
 @Service
 @RequiredArgsConstructor
@@ -16,8 +15,7 @@ public class ImageServiceImpl implements ImageService{
 
     @Override
     public Resource getImageFile(String fileName)
-            throws MalformedURLException, FileNotFoundException
-    {
+            throws IOException {
         return fileService.download(fileName);
     }
 }

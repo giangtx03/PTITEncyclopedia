@@ -2,19 +2,19 @@ package com.project.ptittoanthu.users.service;
 
 import com.project.ptittoanthu.users.dto.request.ChangePasswordRequest;
 import com.project.ptittoanthu.users.dto.request.UpdateProfileRequest;
-import com.project.ptittoanthu.users.dto.response.UserBaseResponse;
 import com.project.ptittoanthu.users.dto.response.UserResponse;
+import com.project.ptittoanthu.users.dto.response.UserResponseDetail;
 
 import java.io.IOException;
 
 public interface UserService {
-    UserResponse getMe();
+    UserResponseDetail getMe();
 
-    UserResponse updateProfile(UpdateProfileRequest profileRequest) throws IOException;
+    UserResponseDetail updateProfile(UpdateProfileRequest profileRequest) throws IOException;
 
     void deleteProfile();
 
-    UserBaseResponse getOtherProfile(Integer id);
+    UserResponse getOtherProfile(Integer id);
 
     void changePassword(ChangePasswordRequest request);
 }
