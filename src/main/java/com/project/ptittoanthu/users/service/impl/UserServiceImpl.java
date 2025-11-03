@@ -26,7 +26,6 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
-    @Qualifier("image-local")
     private final FileService fileService;
     private final PasswordEncoder passwordEncoder;
 
@@ -46,7 +45,7 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new UserNotFoundException(""));
 
         if (profileRequest.getAvatar() != null && !profileRequest.getAvatar().isEmpty()) {
-            String fileName = fileService.upload(profileRequest.getAvatar());
+            String fileName = fileService.upload(profileRequest.getAvatar(), null);
             fileService.delete(user.getAvatar());
             user.setAvatar(fileName);
         }

@@ -3,15 +3,12 @@ package com.project.ptittoanthu.documents.model;
 import com.project.ptittoanthu.common.base.entity.BaseEntity;
 import com.project.ptittoanthu.subjects.model.Subject;
 import com.project.ptittoanthu.users.model.User;
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -20,6 +17,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
+
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "documents")
@@ -41,8 +40,14 @@ public class Document extends BaseEntity {
     @Column(name = "file_path")
     String filePath;
 
-    @OneToOne(mappedBy = "document", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    MetaData metaData;
+    @Column(name = "enable")
+    boolean enable;
+
+    @Column(name = "author")
+    String author;
+    
+    @Column(name = "publish_time")
+    LocalDate publishTime;
 
     @ManyToOne
     @JoinColumn(name = "owner_id", referencedColumnName = "id")

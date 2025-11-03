@@ -16,15 +16,15 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Getter
 @Setter
-public class CreateDocumentRequest {
+public class UpdateDocumentRequest {
+    @NotNull
+    private Integer id;
     @NotBlank
     private String title;
     @NotNull
     private DocumentType type;
     @NotNull
     private MultipartFile file;
-    @NotNull
-    private Integer subjectId;
     @NotBlank
     private String author;
     @DateTimeFormat(pattern = "dd/MM/yyyy")
