@@ -33,7 +33,7 @@ public class Document extends BaseEntity {
     @Column(name = "title", length = 255, nullable = false)
     String title;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     @Column(name = "type")
     DocumentType type;
 

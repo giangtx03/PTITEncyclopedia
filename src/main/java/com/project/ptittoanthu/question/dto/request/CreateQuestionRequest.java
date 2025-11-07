@@ -19,6 +19,10 @@ public class CreateQuestionRequest {
     @Schema(description = "Nhập nội dung câu hỏi")
     private String content;
 
+    @NotBlank
+    @Schema(description = "Nhập môn học")
+    private Integer subjectId;
+
     @NotEmpty
     private List<CreateOptionRequest> options;
     private List<CreateTipRequest> tips;

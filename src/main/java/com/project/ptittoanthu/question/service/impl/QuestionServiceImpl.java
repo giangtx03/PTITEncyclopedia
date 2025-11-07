@@ -18,6 +18,9 @@ import com.project.ptittoanthu.question.model.Question;
 import com.project.ptittoanthu.question.model.Tip;
 import com.project.ptittoanthu.question.repository.QuestionRepository;
 import com.project.ptittoanthu.question.service.QuestionService;
+import com.project.ptittoanthu.subjects.exception.SubjectNotFoundException;
+import com.project.ptittoanthu.subjects.model.Subject;
+import com.project.ptittoanthu.subjects.repository.SubjectRepository;
 import com.project.ptittoanthu.users.exception.UserNotFoundException;
 import com.project.ptittoanthu.users.model.User;
 import com.project.ptittoanthu.users.repository.UserRepository;
@@ -37,6 +40,7 @@ public class QuestionServiceImpl implements QuestionService {
 
     private final QuestionRepository questionRepository;
     private final UserRepository userRepository;
+    private final SubjectRepository subjectRepository;
     private final QuestionMapper mapper;
 
     @Transactional
@@ -46,8 +50,9 @@ public class QuestionServiceImpl implements QuestionService {
         User user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new UserNotFoundException(""));
         Question question = mapper.toEntity(request);
-        question.setUser(user);
-        questionRepository.save(question);
+
+        Subject subject = subjectRepository.findById(request.getSubjectId())
+                .orElseThrow(() -> new SubjectNotFoundException(""));
 
         List<Option> options = mapper.toOption(request.getOptions());
         options.forEach(o -> o.setQuestion(question));
@@ -55,6 +60,8 @@ public class QuestionServiceImpl implements QuestionService {
         List<Tip> tips = mapper.toTip(request.getTips());
         tips.forEach(t -> t.setQuestion(question));
 
+        question.setUser(user);
+        question.setSubject(subject);
         question.setOptions(options);
         question.setTips(tips);
         questionRepository.save(question);

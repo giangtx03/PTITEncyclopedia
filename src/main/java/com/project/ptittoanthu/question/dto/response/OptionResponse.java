@@ -13,5 +13,6 @@ import lombok.experimental.SuperBuilder;
 @Setter
 @SuperBuilder
 public class OptionResponse extends BaseResponse {
+    private Integer id;
     private String value;
 }

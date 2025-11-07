@@ -3,6 +3,7 @@ package com.project.ptittoanthu.question.model;
 import com.project.ptittoanthu.common.base.entity.BaseEntity;
 import com.project.ptittoanthu.quiz.model.Quiz;
 import com.project.ptittoanthu.quiz.model.QuizResultItem;
+import com.project.ptittoanthu.subjects.model.Subject;
 import com.project.ptittoanthu.users.model.User;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -34,6 +35,10 @@ import java.util.List;
 public class Question extends BaseEntity {
     @Column(name = "content", nullable = false)
     String content;
+
+    @ManyToOne
+    @JoinColumn(name = "subject_id", referencedColumnName = "id")
+    Subject subject;
 
     @ManyToOne
     @JoinColumn(name = "user_id", referencedColumnName = "id")

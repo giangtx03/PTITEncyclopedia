@@ -3,6 +3,7 @@ package com.project.ptittoanthu.subjects.model;
 import com.project.ptittoanthu.common.base.entity.BaseEntity;
 import com.project.ptittoanthu.documents.model.Document;
 import com.project.ptittoanthu.majors.model.Major;
+import com.project.ptittoanthu.question.model.Question;
 import com.project.ptittoanthu.quiz.model.Quiz;
 import com.project.ptittoanthu.users.model.User;
 import jakarta.persistence.CascadeType;
@@ -46,6 +47,9 @@ public class Subject extends BaseEntity {
 
     @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     List<Document> documents;
+
+    @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    List<Question> questions;
 
     @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     List<Quiz> quizzes;

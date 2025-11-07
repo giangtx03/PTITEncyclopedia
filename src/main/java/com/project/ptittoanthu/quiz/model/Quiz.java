@@ -6,6 +6,8 @@ import com.project.ptittoanthu.subjects.model.Subject;
 import com.project.ptittoanthu.users.model.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
@@ -17,6 +19,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
+import lombok.experimental.SuperBuilder;
 
 import java.util.List;
 
@@ -27,10 +30,22 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @Setter
+@SuperBuilder
 public class Quiz extends BaseEntity {
+    @Column(name = "title", nullable = false)
+    String title;
 
-    @Column(name = "number_of_question", nullable = false)
-    int numberOfQuestion;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type", nullable = false)
+    QuizType type;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "time", nullable = false)
+    QuizTime time;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "size", nullable = false)
+    QuizSize size;
 
     @ManyToOne
     @JoinColumn(name = "create_by_id", referencedColumnName = "id")

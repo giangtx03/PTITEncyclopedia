@@ -15,6 +15,7 @@ import java.util.List;
 @Setter
 @SuperBuilder
 public class QuestionResponse extends BaseResponse {
+    private Integer id;
     private String content;
     private List<OptionResponse> options;
 }
