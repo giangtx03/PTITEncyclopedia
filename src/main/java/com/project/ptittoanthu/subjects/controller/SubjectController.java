@@ -110,6 +110,42 @@ public class SubjectController {
                 .body(responseDto);
     }
 
+    @PreAuthorize("hasRole('TEACHER')")
+    @PostMapping("/{id}/join")
+    public ResponseEntity<ResponseDto<Void>> joinSubject(
+            @PathVariable Integer id
+    ) {
+        subjectService.joinSubject(id);
+
+        StatusCodeEnum statusCodeEnum = StatusCodeEnum.REQUEST_SUCCESSFULLY;
+
+        ResponseDto<Void> responseDto = ResponseBuilder.okResponse(
+                statusCodeEnum.code,
+                languageService.getMessage(statusCodeEnum.message)
+        );
+        return ResponseEntity
+                .status(statusCodeEnum.httpStatusCode)
+                .body(responseDto);
+    }
+
+    @PreAuthorize("hasRole('TEACHER')")
+    @PostMapping("/{id}/leave")
+    public ResponseEntity<ResponseDto<Void>> leaveSubject(
+            @PathVariable Integer id
+    ) {
+        subjectService.leaveSubject(id);
+
+        StatusCodeEnum statusCodeEnum = StatusCodeEnum.REQUEST_SUCCESSFULLY;
+
+        ResponseDto<Void> responseDto = ResponseBuilder.okResponse(
+                statusCodeEnum.code,
+                languageService.getMessage(statusCodeEnum.message)
+        );
+        return ResponseEntity
+                .status(statusCodeEnum.httpStatusCode)
+                .body(responseDto);
+    }
+
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<ResponseDto<Void>> delete(

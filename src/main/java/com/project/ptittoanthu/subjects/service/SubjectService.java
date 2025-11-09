@@ -13,6 +13,8 @@ public interface SubjectService {
     SubjectResponseDetail createSubject(CreateSubjectRequest request);
     SubjectResponseDetail updateSubject(UpdateSubjectRequest request);
     PageResult<List<SubjectResponse>> getSubjects(SubjectSearchRequest searchRequest);
+    void joinSubject(Integer subjectId);
+    void leaveSubject(Integer subjectId);
     SubjectResponseDetail getSubject(Integer id);
     void deleteSubject(Integer id);
 }
