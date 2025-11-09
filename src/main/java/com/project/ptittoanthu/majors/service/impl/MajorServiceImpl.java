@@ -92,6 +92,7 @@ public class MajorServiceImpl implements MajorService {
         return majorMapper.toMajorResponseDetail(major);
     }
 
+    @Transactional
     @Override
     public void deleteMajor(Integer id) {
         Major major = majorRepository.findById(id)

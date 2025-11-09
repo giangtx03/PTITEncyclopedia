@@ -29,6 +29,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.time.OffsetDateTime;
@@ -52,6 +53,7 @@ public class DocumentServiceImpl implements DocumentService {
         this.documentMapper = documentMapper;
     }
 
+    @Transactional
     @Override
     public DocumentResponseDetail insertDocument(CreateDocumentRequest request) throws IOException {
         String userEmail = SecurityUtils.getUserEmailFromSecurity();
@@ -72,6 +74,7 @@ public class DocumentServiceImpl implements DocumentService {
         return documentMapper.toDocumentResponseDetail(document);
     }
 
+    @Transactional
     @Override
     public DocumentResponseDetail updateDocument(UpdateDocumentRequest request) throws IOException {
         Document document = documentRepository.findById(request.getId())
@@ -95,6 +98,7 @@ public class DocumentServiceImpl implements DocumentService {
         return documentMapper.toDocumentResponseDetail(document);
     }
 
+    @Transactional
     @Override
     public DocumentResponseDetail approveDocument(Integer id) {
         Document document = documentRepository.findById(id)
@@ -105,6 +109,7 @@ public class DocumentServiceImpl implements DocumentService {
         return documentMapper.toDocumentResponseDetail(document);
     }
 
+    @Transactional
     @Override
     public DocumentResponseDetail disableDocument(Integer id) {
         Document document = documentRepository.findById(id)
@@ -115,6 +120,7 @@ public class DocumentServiceImpl implements DocumentService {
         return documentMapper.toDocumentResponseDetail(document);
     }
 
+    @Transactional
     @Override
     public void deleteDocument(Integer id) {
         Document document = documentRepository.findById(id)

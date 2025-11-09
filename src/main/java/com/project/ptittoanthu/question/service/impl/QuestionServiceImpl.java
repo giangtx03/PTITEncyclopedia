@@ -68,6 +68,7 @@ public class QuestionServiceImpl implements QuestionService {
         return mapper.toQuestionResponseDetail(question);
     }
 
+    @Transactional
     @Override
     public QuestionResponseDetail addTip(Integer questionId, CreateTipRequest request) {
         Question question = questionRepository.findById(questionId)
@@ -80,6 +81,7 @@ public class QuestionServiceImpl implements QuestionService {
         return mapper.toQuestionResponseDetail(question);
     }
 
+    @Transactional
     @Override
     public QuestionResponseDetail addOption(Integer questionId, CreateOptionRequest request) {
         Question question = questionRepository.findById(questionId)

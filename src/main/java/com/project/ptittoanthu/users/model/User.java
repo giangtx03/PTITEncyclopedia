@@ -27,7 +27,9 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
@@ -74,7 +76,7 @@ public class User extends BaseEntity implements UserDetails {
     List<Question> questions;
 
     @ManyToMany(mappedBy = "users", fetch = FetchType.LAZY)
-    List<Subject> subjects;
+    Set<Subject> subjects = new HashSet<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -29,6 +29,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -43,6 +44,7 @@ public class QuizServiceImpl implements QuizService {
     private final QuestionRepository questionRepository;
     private final QuizMapper quizMapper;
 
+    @Transactional
     @Override
     public QuizResponseDetail createQuiz(CreateQuizRequest request) {
         String userEmail = SecurityUtils.getUserEmailFromSecurity();
@@ -83,6 +85,7 @@ public class QuizServiceImpl implements QuizService {
                 .build();
     }
 
+    @Transactional
     @Override
     public QuizResponseDetail updateQuiz(UpdateQuizRequest request) {
         Quiz quiz = quizRepository.findById(request.getId())
@@ -93,6 +96,7 @@ public class QuizServiceImpl implements QuizService {
         return quizMapper.toQuizResponseDetail(quiz);
     }
 
+    @Transactional
     @Override
     public void delete(Integer id) {
         Quiz quiz = quizRepository.findById(id)
