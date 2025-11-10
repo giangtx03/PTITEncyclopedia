@@ -2,6 +2,7 @@ package com.project.ptittoanthu.quiz.model;
 
 import com.project.ptittoanthu.common.base.entity.BaseEntity;
 import com.project.ptittoanthu.users.model.User;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -38,6 +39,6 @@ public class QuizResult extends BaseEntity {
     @JoinColumn(name = "quiz_id", referencedColumnName = "id")
     Quiz quiz;
 
-    @OneToMany(mappedBy = "quizResult")
+    @OneToMany(mappedBy = "quizResult", cascade = CascadeType.ALL, orphanRemoval = true)
     List<QuizResultItem> quizResultItems;
 }

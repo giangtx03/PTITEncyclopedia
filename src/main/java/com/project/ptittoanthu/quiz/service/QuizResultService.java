@@ -9,7 +9,7 @@ import com.project.ptittoanthu.quiz.dto.response.QuizResultResponseDetail;
 import java.util.List;
 
 public interface QuizResultService {
-    QuizResultResponseDetail createQuizResult(CreateQuizResultRequest request);
+    QuizResultResponse createQuizResult(CreateQuizResultRequest request);
     QuizResultResponseDetail getQuizResult(Integer id);
     PageResult<List<QuizResultResponse>> getQuizResults(QuizResultSearchRequest request);
     void delete(Integer id);

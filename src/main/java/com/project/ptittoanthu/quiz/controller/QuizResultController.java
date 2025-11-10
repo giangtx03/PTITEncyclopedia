@@ -35,14 +35,14 @@ public class QuizResultController {
     private final LanguageService languageService;
     @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     @PostMapping
-    public ResponseEntity<ResponseDto<QuizResultResponseDetail>> createQuizResult(
+    public ResponseEntity<ResponseDto<QuizResultResponse>> createQuizResult(
             @Valid @RequestBody CreateQuizResultRequest request
     ) {
-        QuizResultResponseDetail responseDetail = quizResultService.createQuizResult(request);
+        QuizResultResponse responseDetail = quizResultService.createQuizResult(request);
 
         StatusCodeEnum statusCodeEnum = StatusCodeEnum.REQUEST_SUCCESSFULLY;
 
-        ResponseDto<QuizResultResponseDetail> responseDto = ResponseBuilder.okResponse(
+        ResponseDto<QuizResultResponse> responseDto = ResponseBuilder.okResponse(
                 statusCodeEnum.code,
                 languageService.getMessage(statusCodeEnum.message),
                 responseDetail

@@ -54,7 +54,7 @@ public class QuizResultServiceImpl implements QuizResultService {
 
     @Transactional
     @Override
-    public QuizResultResponseDetail createQuizResult(CreateQuizResultRequest request) {
+    public QuizResultResponse createQuizResult(CreateQuizResultRequest request) {
         String userEmail = SecurityUtils.getUserEmailFromSecurity();
         User user = userRepository.findByEmail(userEmail)
                 .orElseThrow(() -> new UserNotFoundException("User not found"));
@@ -62,6 +62,9 @@ public class QuizResultServiceImpl implements QuizResultService {
         Quiz quiz = quizRepository.findById(request.getQuizId())
                 .orElseThrow(() -> new QuizNotFoundExp("Quiz not found"));
 
+        QuizResult quizResult = new QuizResult();
+        quizResult.setQuiz(quiz);
+        quizResult.setUser(user);
         List<QuizResultItem> quizResultItems = request.getQuizResultItemRequests()
                 .stream()
                 .map(quizResultItemRequest -> {
@@ -71,18 +74,15 @@ public class QuizResultServiceImpl implements QuizResultService {
                             .orElseThrow(() -> new OptionNotFoundExp(""));
                     return QuizResultItem.builder()
                             .question(question)
+                            .quizResult(quizResult)
                             .selected(option)
                             .build();
                 })
                 .toList();
-
-        QuizResult quizResult = new QuizResult();
-        quizResult.setQuiz(quiz);
-        quizResult.setUser(user);
         quizResult.setQuizResultItems(quizResultItems);
         quizResult.setScore(calculateScore(quizResultItems, quiz.getSize()));
         quizResultRepository.save(quizResult);
-        return quizResultMapper.toQuizResultResponseDetail(quizResult);
+        return quizResultMapper.toQuizResultResponse(quizResult);
     }
 
     @Override
