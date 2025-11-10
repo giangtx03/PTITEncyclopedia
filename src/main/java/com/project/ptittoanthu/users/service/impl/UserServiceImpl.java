@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.time.OffsetDateTime;
@@ -38,6 +39,7 @@ public class UserServiceImpl implements UserService {
         return userMapper.toResponse(user);
     }
 
+    @Transactional
     @Override
     public UserResponseDetail updateProfile(UpdateProfileRequest profileRequest) throws IOException {
         String email = SecurityUtils.getUserEmailFromSecurity();
@@ -55,6 +57,7 @@ public class UserServiceImpl implements UserService {
         return userMapper.toResponse(user);
     }
 
+    @Transactional
     @Override
     public void deleteProfile() {
         String email = SecurityUtils.getUserEmailFromSecurity();
@@ -71,6 +74,7 @@ public class UserServiceImpl implements UserService {
         return userMapper.toBaseResponse(user);
     }
 
+    @Transactional
     @Override
     public void changePassword(ChangePasswordRequest request) {
         String email = SecurityUtils.getUserEmailFromSecurity();

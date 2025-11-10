@@ -59,6 +59,7 @@ public class SubjectServiceImpl implements SubjectService {
         return subjectMapper.toSubjectDetailResponse(subject);
     }
 
+    @Transactional
     @Override
     public SubjectResponseDetail updateSubject(UpdateSubjectRequest request) {
         Subject subject = subjectRepository.findById(request.getId())
