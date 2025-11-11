@@ -38,6 +38,7 @@ public class DocumentController {
     private final DocumentService documentService;
     private final LanguageService languageService;
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping(value = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ResponseDto<DocumentResponseDetail>> insertDocument(
             @Valid @ModelAttribute CreateDocumentRequest request
@@ -56,7 +57,7 @@ public class DocumentController {
                 .body(responseDto);
     }
 
-//    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     @PutMapping(value = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<ResponseDto<DocumentResponseDetail>> updateDocument(
             @Valid @ModelAttribute UpdateDocumentRequest request
@@ -112,6 +113,7 @@ public class DocumentController {
                 .body(responseDto);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     @GetMapping("/approve/{id}")
     public ResponseEntity<ResponseDto<DocumentResponseDetail>> approveDocument(
             @PathVariable Integer id
@@ -130,6 +132,7 @@ public class DocumentController {
                 .body(responseDto);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     @GetMapping("/disable/{id}")
     public ResponseEntity<ResponseDto<DocumentResponseDetail>> disableDocument(
             @PathVariable Integer id
@@ -148,7 +151,7 @@ public class DocumentController {
                 .body(responseDto);
     }
 
-//    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     @DeleteMapping("/{id}")
     public ResponseEntity<ResponseDto<Void>> delete(
             @PathVariable Integer id

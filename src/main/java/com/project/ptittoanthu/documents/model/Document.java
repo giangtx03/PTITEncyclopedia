@@ -1,14 +1,17 @@
 package com.project.ptittoanthu.documents.model;
 
 import com.project.ptittoanthu.common.base.entity.BaseEntity;
+import com.project.ptittoanthu.review.model.Review;
 import com.project.ptittoanthu.subjects.model.Subject;
 import com.project.ptittoanthu.users.model.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -19,6 +22,7 @@ import lombok.experimental.FieldDefaults;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "documents")
@@ -56,4 +60,7 @@ public class Document extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "subject_id", referencedColumnName = "id")
     Subject subject;
+
+    @OneToMany(mappedBy = "document", fetch = FetchType.LAZY)
+    List<Review> reviews;
 }

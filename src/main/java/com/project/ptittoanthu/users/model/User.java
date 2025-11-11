@@ -5,6 +5,7 @@ import com.project.ptittoanthu.documents.model.Document;
 import com.project.ptittoanthu.question.model.Question;
 import com.project.ptittoanthu.quiz.model.Quiz;
 import com.project.ptittoanthu.quiz.model.QuizResult;
+import com.project.ptittoanthu.review.model.Review;
 import com.project.ptittoanthu.subjects.model.Subject;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -77,6 +78,9 @@ public class User extends BaseEntity implements UserDetails {
 
     @ManyToMany(mappedBy = "users", fetch = FetchType.LAZY)
     Set<Subject> subjects = new HashSet<>();
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    List<Review> reviews;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
