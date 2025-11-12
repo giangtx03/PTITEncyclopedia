@@ -2,6 +2,7 @@ package com.project.ptittoanthu.users.model;
 
 import com.project.ptittoanthu.common.base.entity.BaseEntity;
 import com.project.ptittoanthu.documents.model.Document;
+import com.project.ptittoanthu.notify.model.Notification;
 import com.project.ptittoanthu.question.model.Question;
 import com.project.ptittoanthu.quiz.model.Quiz;
 import com.project.ptittoanthu.quiz.model.QuizResult;
@@ -81,6 +82,9 @@ public class User extends BaseEntity implements UserDetails {
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     List<Review> reviews;
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    List<Notification> notifications;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
