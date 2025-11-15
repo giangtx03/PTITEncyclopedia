@@ -1,6 +1,7 @@
 package com.project.ptittoanthu.documents.model;
 
 import com.project.ptittoanthu.common.base.entity.BaseEntity;
+import com.project.ptittoanthu.favorite.model.Bookmark;
 import com.project.ptittoanthu.review.model.Review;
 import com.project.ptittoanthu.subjects.model.Subject;
 import com.project.ptittoanthu.users.model.User;
@@ -63,4 +64,7 @@ public class Document extends BaseEntity {
 
     @OneToMany(mappedBy = "document", fetch = FetchType.LAZY)
     List<Review> reviews;
+
+    @OneToMany(mappedBy = "document", fetch = FetchType.LAZY)
+    List<Bookmark> bookmarks;
 }

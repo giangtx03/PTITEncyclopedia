@@ -2,6 +2,7 @@ package com.project.ptittoanthu.subjects.model;
 
 import com.project.ptittoanthu.common.base.entity.BaseEntity;
 import com.project.ptittoanthu.documents.model.Document;
+import com.project.ptittoanthu.favorite.model.FavoriteSubject;
 import com.project.ptittoanthu.majors.model.Major;
 import com.project.ptittoanthu.question.model.Question;
 import com.project.ptittoanthu.quiz.model.Quiz;
@@ -63,4 +64,7 @@ public class Subject extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = "teacher_id")
     )
     Set<User> users = new HashSet<>();
+
+    @OneToMany(mappedBy = "subject", fetch = FetchType.LAZY)
+    List<FavoriteSubject> favoriteSubjects;
 }
