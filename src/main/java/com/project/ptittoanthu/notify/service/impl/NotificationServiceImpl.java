@@ -33,17 +33,11 @@ public class NotificationServiceImpl implements NotificationService {
     private final WebSocketNotificationSender webSocketNotificationSender;
 
     @Override
-    public NotificationResponse createNotification(CreateNotificationRequest request) {
-        String userEmail = SecurityUtils.getUserEmailFromSecurity();
-        User user = userRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new UserNotFoundException(""));
-
+    public void createNotification(CreateNotificationRequest request) {
         Notification notification = notificationMapper.toNotification(request);
-        notification.setUser(user);
         notificationRepository.save(notification);
         NotificationResponse response = notificationMapper.toNotificationResponse(notification);
-        webSocketNotificationSender.sendToUser(user.getId(), response);
-        return response;
+        webSocketNotificationSender.sendToUser(request.getUser().getId(), response);
     }
 
     @Override

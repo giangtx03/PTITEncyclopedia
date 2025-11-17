@@ -8,7 +8,7 @@ import com.project.ptittoanthu.notify.dto.NotificationResponse;
 import java.util.List;
 
 public interface NotificationService {
-    NotificationResponse createNotification(CreateNotificationRequest request);
+    void createNotification(CreateNotificationRequest request);
     PageResult<List<NotificationResponse>> getNotifications(PaginationRequest request);
     void readAll();
     void delete(Integer id);

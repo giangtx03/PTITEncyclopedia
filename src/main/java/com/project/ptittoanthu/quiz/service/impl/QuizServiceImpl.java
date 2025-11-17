@@ -5,6 +5,9 @@ import com.project.ptittoanthu.common.base.dto.PageResult;
 import com.project.ptittoanthu.common.helper.MetaDataHelper;
 import com.project.ptittoanthu.common.helper.SortHelper;
 import com.project.ptittoanthu.common.util.SecurityUtils;
+import com.project.ptittoanthu.notify.dto.CreateNotificationRequest;
+import com.project.ptittoanthu.notify.model.NotificationType;
+import com.project.ptittoanthu.notify.service.NotificationService;
 import com.project.ptittoanthu.question.model.Question;
 import com.project.ptittoanthu.question.repository.QuestionRepository;
 import com.project.ptittoanthu.quiz.dto.QuizSearchRequest;
@@ -43,6 +46,7 @@ public class QuizServiceImpl implements QuizService {
     private final SubjectRepository subjectRepository;
     private final QuestionRepository questionRepository;
     private final QuizMapper quizMapper;
+    private final NotificationService notificationService;
 
     @Transactional
     @Override
@@ -67,7 +71,21 @@ public class QuizServiceImpl implements QuizService {
         quiz.setSubject(subject);
         quiz.setQuestions(randomQuestions);
         quizRepository.save(quiz);
+        subject.getFavoriteSubjects().forEach(u ->
+            sendNotification(u.getUser(),"Bài trắc nghiệm mới", quiz.getTitle(),
+                    NotificationType.QUIZ, quiz.getId()));
         return quizMapper.toQuizResponseDetail(quiz);
+    }
+
+    private void sendNotification(User user, String title, String msg, NotificationType type, Integer targetId) {
+        notificationService.createNotification(
+                CreateNotificationRequest.builder()
+                        .title(title)
+                        .type(type)
+                        .message(msg)
+                        .targetId(targetId)
+                        .user(user)
+                        .build());
     }
 
     @Override

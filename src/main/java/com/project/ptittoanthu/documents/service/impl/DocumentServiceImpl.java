@@ -16,6 +16,9 @@ import com.project.ptittoanthu.documents.model.Document;
 import com.project.ptittoanthu.documents.repository.DocumentRepository;
 import com.project.ptittoanthu.documents.service.DocumentService;
 import com.project.ptittoanthu.infra.files.FileService;
+import com.project.ptittoanthu.notify.dto.CreateNotificationRequest;
+import com.project.ptittoanthu.notify.model.NotificationType;
+import com.project.ptittoanthu.notify.service.NotificationService;
 import com.project.ptittoanthu.subjects.exception.SubjectNotFoundException;
 import com.project.ptittoanthu.subjects.model.Subject;
 import com.project.ptittoanthu.subjects.repository.SubjectRepository;
@@ -43,14 +46,17 @@ public class DocumentServiceImpl implements DocumentService {
     private final SubjectRepository subjectRepository;
     private final DocumentMapper documentMapper;
     private final FileService fileService;
+    private final NotificationService notificationService;
 
     public DocumentServiceImpl(@Qualifier("file-local") FileService fileService, DocumentRepository documentRepository,
-                               UserRepository userRepository, SubjectRepository subjectRepository, DocumentMapper documentMapper) {
+                               UserRepository userRepository, SubjectRepository subjectRepository,
+                               DocumentMapper documentMapper, NotificationService notificationService) {
         this.fileService = fileService;
         this.documentRepository = documentRepository;
         this.userRepository = userRepository;
         this.subjectRepository = subjectRepository;
         this.documentMapper = documentMapper;
+        this.notificationService = notificationService;
     }
 
     @Transactional
@@ -71,7 +77,20 @@ public class DocumentServiceImpl implements DocumentService {
         document.setFilePath(fileService.upload(request.getFile(), request.getType()));
 
         documentRepository.save(document);
+        subject.getUsers().forEach(u -> sendNotification(u,"Tài liệu mới được đăng tải", document.getTitle(),
+                NotificationType.UPLOAD_DOCUMENT, document.getId()));
         return documentMapper.toDocumentResponseDetail(document);
+    }
+
+    private void sendNotification(User user, String title, String msg, NotificationType type, Integer targetId) {
+        notificationService.createNotification(
+                CreateNotificationRequest.builder()
+                        .title(title)
+                        .type(type)
+                        .message(msg)
+                        .targetId(targetId)
+                        .user(user)
+                        .build());
     }
 
     @Transactional
@@ -88,6 +107,8 @@ public class DocumentServiceImpl implements DocumentService {
 
         documentMapper.updateDoc(request, document);
         documentRepository.save(document);
+        document.getSubject().getUsers().forEach(u -> sendNotification(u,"Cập nhật tài liệu", document.getTitle(),
+                NotificationType.DOCUMENT, document.getId()));
         return documentMapper.toDocumentResponseDetail(document);
     }
 
@@ -106,6 +127,7 @@ public class DocumentServiceImpl implements DocumentService {
 
         document.setEnable(true);
         documentRepository.save(document);
+        sendNotification(document.getOwner(),"Tài liệu được phát hành", document.getTitle(), NotificationType.DOCUMENT, document.getId());
         return documentMapper.toDocumentResponseDetail(document);
     }
 
@@ -117,6 +139,7 @@ public class DocumentServiceImpl implements DocumentService {
 
         document.setEnable(false);
         documentRepository.save(document);
+        sendNotification(document.getOwner(),"Tài liệu bị từ chối", document.getTitle(), NotificationType.DOCUMENT, document.getId());
         return documentMapper.toDocumentResponseDetail(document);
     }
 

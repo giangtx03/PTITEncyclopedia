@@ -1,6 +1,7 @@
 package com.project.ptittoanthu.notify.dto;
 
 import com.project.ptittoanthu.notify.model.NotificationType;
+import com.project.ptittoanthu.users.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,4 +19,5 @@ public class CreateNotificationRequest {
     private NotificationType type;
     private Integer targetId;
     private boolean read;
+    private User user;
 }

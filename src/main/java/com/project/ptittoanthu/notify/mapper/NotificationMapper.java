@@ -12,7 +12,6 @@ import java.util.List;
 public interface NotificationMapper {
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "user", ignore = true)
     Notification toNotification(CreateNotificationRequest request);
 
     NotificationResponse toNotificationResponse(Notification notification);

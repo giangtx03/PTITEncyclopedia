@@ -8,6 +8,9 @@ import com.project.ptittoanthu.common.util.SecurityUtils;
 import com.project.ptittoanthu.documents.exception.DocumentNotFoundExp;
 import com.project.ptittoanthu.documents.model.Document;
 import com.project.ptittoanthu.documents.repository.DocumentRepository;
+import com.project.ptittoanthu.notify.dto.CreateNotificationRequest;
+import com.project.ptittoanthu.notify.model.NotificationType;
+import com.project.ptittoanthu.notify.service.NotificationService;
 import com.project.ptittoanthu.review.dto.ReviewSearchRequest;
 import com.project.ptittoanthu.review.dto.request.CreateReviewRequest;
 import com.project.ptittoanthu.review.dto.request.UpdateReviewRequest;
@@ -39,6 +42,7 @@ public class ReviewServiceImpl implements ReviewService {
     private final UserRepository userRepository;
     private final DocumentRepository documentRepository;
     private final ReviewMapper reviewMapper;
+    private final NotificationService notificationService;
 
     @Override
     public ReviewResponseDetail createReview(CreateReviewRequest request) {
@@ -53,7 +57,19 @@ public class ReviewServiceImpl implements ReviewService {
         review.setUser(user);
         review.setDocument(document);
         reviewRepository.save(review);
+        sendNotification(document.getOwner(),"Đánh giá tài liệu", review.getContent(), NotificationType.REVIEW_DOCUMENT, document.getId());
         return reviewMapper.toReviewResponseDetail(review);
+    }
+
+    private void sendNotification(User user, String title, String msg, NotificationType type, Integer targetId) {
+        notificationService.createNotification(
+                CreateNotificationRequest.builder()
+                        .title(title)
+                        .type(type)
+                        .message(msg)
+                        .targetId(targetId)
+                        .user(user)
+                        .build());
     }
 
     @Override
