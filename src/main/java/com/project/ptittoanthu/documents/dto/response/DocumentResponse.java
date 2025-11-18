@@ -23,4 +23,6 @@ public class DocumentResponse extends BaseResponse {
     @UrlPrefix(property = PropertyUrlConstant.FILE_URL)
     String filePath;
     UserResponse owner;
+    Long bookmarkCount;
+    Double avgRating;
 }

@@ -6,6 +6,7 @@ import com.project.ptittoanthu.common.helper.MetaDataHelper;
 import com.project.ptittoanthu.common.helper.SortHelper;
 import com.project.ptittoanthu.common.util.SecurityUtils;
 import com.project.ptittoanthu.documents.dto.DocumentSearchRequest;
+import com.project.ptittoanthu.documents.dto.DocumentStatsDto;
 import com.project.ptittoanthu.documents.dto.request.CreateDocumentRequest;
 import com.project.ptittoanthu.documents.dto.request.UpdateDocumentRequest;
 import com.project.ptittoanthu.documents.dto.response.DocumentResponse;
@@ -114,7 +115,7 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     public DocumentResponseDetail getDocument(Integer id) {
-        Document document = documentRepository.findById(id)
+        DocumentStatsDto document = documentRepository.findDocumentStatsById(id)
                 .orElseThrow(() -> new DocumentNotFoundExp(""));
         return documentMapper.toDocumentResponseDetail(document);
     }
@@ -157,7 +158,7 @@ public class DocumentServiceImpl implements DocumentService {
         Sort sort = SortHelper.buildSort(request.getOrder(), request.getDirection());
         Pageable pageable = PageRequest.of(request.getCurrentPage() - 1, request.getPageSize(), sort);
 
-        Page<Document> documents = documentRepository.findAllBySearchRequest(request.getKeyword() ,request.getSubjectId(), pageable);
+        Page<DocumentStatsDto> documents = documentRepository.findAllWithStatsDto(request.getKeyword() ,request.getSubjectId(), pageable);
 
         List<DocumentResponse> responses = documentMapper.toDocumentResponse(documents.getContent());
         MetaDataResponse metaDataResponse = MetaDataHelper.buildMetaData(documents, request);
