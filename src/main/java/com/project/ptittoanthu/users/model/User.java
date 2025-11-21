@@ -10,11 +10,14 @@ import com.project.ptittoanthu.quiz.model.Quiz;
 import com.project.ptittoanthu.quiz.model.QuizResult;
 import com.project.ptittoanthu.review.model.Review;
 import com.project.ptittoanthu.subjects.model.Subject;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -79,7 +82,12 @@ public class User extends BaseEntity implements UserDetails {
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     List<Question> questions;
 
-    @ManyToMany(mappedBy = "users", fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "course_sections",
+            joinColumns = @JoinColumn(name = "teacher_id"),
+            inverseJoinColumns = @JoinColumn(name = "subject_id")
+    )
     Set<Subject> subjects = new HashSet<>();
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)

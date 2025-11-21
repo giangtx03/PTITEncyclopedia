@@ -20,7 +20,8 @@ public class FilterInterceptor {
     }
 
     public void disableFilterForCurrentThread() {
-        DISABLE_FILTER.set(true);
+        Session session = entityManager.unwrap(Session.class);
+        session.disableFilter("softDeleteFilter");
     }
 
     public void enableFilterForCurrentThread() {

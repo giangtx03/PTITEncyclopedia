@@ -57,12 +57,7 @@ public class Subject extends BaseEntity {
     @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     List<Quiz> quizzes;
 
-    @ManyToMany
-    @JoinTable(
-            name = "course_sections",
-            joinColumns = @JoinColumn(name = "subject_id"),
-            inverseJoinColumns = @JoinColumn(name = "teacher_id")
-    )
+    @ManyToMany(mappedBy = "subjects", fetch = FetchType.LAZY)
     Set<User> users = new HashSet<>();
 
     @OneToMany(mappedBy = "subject", fetch = FetchType.LAZY)
