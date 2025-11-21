@@ -61,7 +61,7 @@ public class QuestionController {
     @PostMapping("{id}/tips")
     public ResponseEntity<ResponseDto<QuestionResponseDetail>> addTip(
             @PathVariable("id") Integer questionId,
-            @Valid @ParameterObject CreateTipRequest request
+            @Valid @RequestBody CreateTipRequest request
     ) {
         QuestionResponseDetail responseDetail = questionService.addTip(questionId, request);
 
@@ -81,7 +81,7 @@ public class QuestionController {
     @PostMapping("{id}/options")
     public ResponseEntity<ResponseDto<QuestionResponseDetail>> addOption(
             @PathVariable("id") Integer questionId,
-            @Valid @ParameterObject CreateOptionRequest request
+            @Valid @RequestBody CreateOptionRequest request
     ) {
         QuestionResponseDetail responseDetail = questionService.addOption(questionId, request);
 
@@ -100,7 +100,7 @@ public class QuestionController {
     @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     @PutMapping
     public ResponseEntity<ResponseDto<QuestionResponseDetail>> updateQuestion (
-            @Valid @ParameterObject UpdateQuestionRequest request
+            @Valid @RequestBody UpdateQuestionRequest request
     ) {
         QuestionResponseDetail responseDetail = questionService.updateQuestion(request);
 

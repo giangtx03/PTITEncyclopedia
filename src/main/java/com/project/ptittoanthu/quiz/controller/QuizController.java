@@ -39,7 +39,7 @@ public class QuizController {
     @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     @PostMapping
     public ResponseEntity<ResponseDto<QuizResponseDetail>> createQuiz(
-            @Valid @ParameterObject CreateQuizRequest request
+            @Valid @RequestBody CreateQuizRequest request
     ) {
         QuizResponseDetail responseDetail = quizService.createQuiz(request);
 
@@ -58,7 +58,7 @@ public class QuizController {
     @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     @PutMapping
     public ResponseEntity<ResponseDto<QuizResponseDetail>> updateQuiz (
-            @Valid @ParameterObject UpdateQuizRequest request
+            @Valid @RequestBody UpdateQuizRequest request
     ) {
         QuizResponseDetail responseDetail = quizService.updateQuiz(request);
 

@@ -1,5 +1,6 @@
 package com.project.ptittoanthu.majors.dto;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -12,10 +13,13 @@ import lombok.Setter;
 @Getter
 @Setter
 public class CreateMajorRequest {
+    @Schema(name = "name", example = "Multimedia")
     @NotBlank
     String name;
     @NotBlank
+    @Schema(name = "code", example = "DPT")
     String code;
     @NotNull
+    @Schema(name = "facultyId", example = "1")
     Integer facultyId;
 }

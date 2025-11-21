@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -38,7 +39,7 @@ public class SubjectController {
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<ResponseDto<SubjectResponseDetail>> createSubject(
-            @Valid @ParameterObject CreateSubjectRequest request
+            @Valid @RequestBody CreateSubjectRequest request
     ) {
         SubjectResponseDetail subjectResponse = subjectService.createSubject(request);
 
@@ -57,7 +58,7 @@ public class SubjectController {
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping
     public ResponseEntity<ResponseDto<SubjectResponseDetail>> updateSubject(
-            @Valid @ParameterObject UpdateSubjectRequest request
+            @Valid @RequestBody UpdateSubjectRequest request
     ) {
         SubjectResponseDetail subjectResponse = subjectService.updateSubject(request);
 

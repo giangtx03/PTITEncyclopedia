@@ -31,7 +31,7 @@ public class FavoriteController {
     private final LanguageService languageService;
 
     @PreAuthorize("isAuthenticated()")
-    @PostMapping("/document/{subjectId}")
+    @PostMapping("/subject/{subjectId}")
     public ResponseEntity<ResponseDto<Void>> toggleFavorite(
             @PathVariable("subjectId") Integer subjectId
     ) {
@@ -49,7 +49,7 @@ public class FavoriteController {
     }
 
     @PreAuthorize("isAuthenticated()")
-    @GetMapping("/document/{subjectId}")
+    @GetMapping("/subject/{subjectId}")
     public ResponseEntity<ResponseDto<Boolean>> isFavorite(
             @PathVariable("subjectId") Integer subjectId
     ) {

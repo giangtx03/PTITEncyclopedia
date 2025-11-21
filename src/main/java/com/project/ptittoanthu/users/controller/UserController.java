@@ -10,7 +10,6 @@ import com.project.ptittoanthu.common.base.enums.StatusCodeEnum;
 import com.project.ptittoanthu.infra.language.LanguageService;
 import com.project.ptittoanthu.users.service.UserService;
 import jakarta.validation.Valid;
-import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -19,6 +18,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
@@ -108,7 +108,7 @@ public class UserController {
 
     @PutMapping("/change-password")
     public ResponseEntity<ResponseDto<Void>> getOtherProfile(
-            @Valid @ParameterObject ChangePasswordRequest request
+            @Valid @RequestBody ChangePasswordRequest request
     ) {
 
         userService.changePassword(request);

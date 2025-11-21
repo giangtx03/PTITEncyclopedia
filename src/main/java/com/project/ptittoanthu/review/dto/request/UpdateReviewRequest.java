@@ -1,6 +1,6 @@
 package com.project.ptittoanthu.review.dto.request;
 
-import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
@@ -14,12 +14,13 @@ import lombok.Setter;
 @Setter
 @Getter
 public class UpdateReviewRequest {
+    @Schema(name = "id", example = "1")
     @NotNull
     private Integer id;
-    @Parameter(example = "very good")
+    @Schema(name = "content", example = "very good")
     private String content;
 
-    @Parameter(example = "5")
+    @Schema(name = "star", example = "5")
     @Min(value = 1)
     @Max(value = 5)
     private int star;

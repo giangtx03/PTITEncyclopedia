@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -38,7 +39,7 @@ public class ReviewController {
     @PreAuthorize("isAuthenticated()")
     @PostMapping
     public ResponseEntity<ResponseDto<ReviewResponseDetail>> createReview(
-            @Valid @ParameterObject CreateReviewRequest request
+            @Valid @RequestBody CreateReviewRequest request
     ) {
         ReviewResponseDetail responseDetail = reviewService.createReview(request);
 
@@ -57,7 +58,7 @@ public class ReviewController {
     @PreAuthorize("isAuthenticated()")
     @PutMapping
     public ResponseEntity<ResponseDto<ReviewResponseDetail>> updateReview (
-            @Valid @ParameterObject UpdateReviewRequest request
+            @Valid @RequestBody UpdateReviewRequest request
     ) {
         ReviewResponseDetail responseDetail = reviewService.updateReview(request);
 

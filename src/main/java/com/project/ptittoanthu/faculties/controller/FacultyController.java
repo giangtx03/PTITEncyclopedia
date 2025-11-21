@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -37,7 +38,7 @@ public class FacultyController {
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<ResponseDto<FacultyResponse>> createFaculty(
-            @Valid @ParameterObject CreateFacultyRequest request
+            @Valid @RequestBody CreateFacultyRequest request
     ) {
         FacultyResponse facultyResponse = facultyService.createFaculty(request);
 
@@ -56,7 +57,7 @@ public class FacultyController {
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping
     public ResponseEntity<ResponseDto<FacultyResponse>> updateFaculty(
-            @Valid @ParameterObject UpdateFacultyRequest request
+            @Valid @RequestBody UpdateFacultyRequest request
     ) {
         FacultyResponse facultyResponse = facultyService.updateFaculty(request);
 

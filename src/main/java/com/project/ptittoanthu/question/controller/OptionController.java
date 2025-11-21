@@ -9,12 +9,12 @@ import com.project.ptittoanthu.question.dto.response.OptionResponseDetail;
 import com.project.ptittoanthu.question.service.OptionService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,7 +29,7 @@ public class OptionController {
     @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     @PutMapping
     public ResponseEntity<ResponseDto<OptionResponseDetail>> updateOption(
-            @Valid @ParameterObject UpdateOptionRequest request
+            @Valid @RequestBody UpdateOptionRequest request
     ) {
         OptionResponseDetail responseDetail = optionService.updateOption(request);
 

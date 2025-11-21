@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -38,7 +39,7 @@ public class MajorController {
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<ResponseDto<MajorResponseDetail>> createMajor(
-            @Valid @ParameterObject CreateMajorRequest request
+            @Valid @RequestBody CreateMajorRequest request
     ) {
         MajorResponseDetail majorResponse = majorService.createMajor(request);
 
@@ -57,7 +58,7 @@ public class MajorController {
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping
     public ResponseEntity<ResponseDto<MajorResponseDetail>> updateMajor(
-            @Valid @ParameterObject UpdateMajorRequest request
+            @Valid @RequestBody UpdateMajorRequest request
     ) {
         MajorResponseDetail majorResponse = majorService.updateMajor(request);
 
