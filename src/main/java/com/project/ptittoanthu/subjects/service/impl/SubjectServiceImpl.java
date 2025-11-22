@@ -93,35 +93,6 @@ public class SubjectServiceImpl implements SubjectService {
                 .build();
     }
 
-    @Transactional
-    @Override
-    public void joinSubject(Integer subjectId) {
-
-        String userEmail = SecurityUtils.getUserEmailFromSecurity();
-        User user = userRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new UserNotFoundException(""));
-
-        Subject subject = subjectRepository.findById(subjectId)
-                .orElseThrow(() -> new SubjectNotFoundException("Subject not found"));
-
-        subject.getUsers().add(user);
-        subjectRepository.save(subject);
-    }
-
-    @Transactional
-    @Override
-    public void leaveSubject(Integer subjectId) {
-        String userEmail = SecurityUtils.getUserEmailFromSecurity();
-        User user = userRepository.findByEmail(userEmail)
-                .orElseThrow(() -> new UserNotFoundException(""));
-
-        Subject subject = subjectRepository.findById(subjectId)
-                .orElseThrow(() -> new SubjectNotFoundException("Subject not found"));
-
-        subject.getUsers().remove(user);
-        subjectRepository.save(subject);
-    }
-
     @Override
     public SubjectResponseDetail getSubject(Integer id) {
         Subject subject = subjectRepository.findById(id)
