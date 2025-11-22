@@ -48,4 +48,48 @@ public interface DocumentRepository extends JpaRepository<Document, Integer> {
     Page<DocumentStatsDto> findAllWithStatsDto(@Param("keyword") String keyword,
                                                @Param("subjectId") Integer subjectId,
                                                Pageable pageable);
+
+    @Query(value = """
+        SELECT new com.project.ptittoanthu.documents.dto.DocumentStatsDto(
+            d,
+            COUNT(DISTINCT b.id),
+            AVG(r.star)
+        )
+        FROM Document d
+        LEFT JOIN d.subject subject
+        LEFT JOIN d.bookmarks b
+        LEFT JOIN d.reviews r
+        WHERE (:subjectId IS NULL OR :subjectId = subject.id)
+            AND (:keyword IS NULL OR LOWER(d.title) LIKE LOWER(CONCAT('%', :keyword, '%')))
+            AND (:userId IS NULL OR :userId = d.owner.id)
+        GROUP BY d.id
+        """)
+    Page<DocumentStatsDto> findAllWithStatsDto(@Param("keyword") String keyword,
+                                               @Param("subjectId") Integer subjectId,
+                                               @Param("userId") Integer userId,
+                                               Pageable pageable);
+
+    @Query("""
+            SELECT new com.project.ptittoanthu.documents.dto.DocumentStatsDto(
+                d,
+                COUNT(DISTINCT b.id),
+                AVG(r.star)
+            )
+            FROM Document d
+            LEFT JOIN d.bookmarks b
+            LEFT JOIN d.reviews r
+            WHERE EXISTS (
+                SELECT 1 FROM Bookmark bb
+                WHERE bb.document = d AND bb.user.id = :userId
+            )
+            AND (:keyword IS NULL OR LOWER(d.title) LIKE LOWER(CONCAT('%', :keyword, '%')))
+            AND (:subjectId IS NULL OR d.subject.id = :subjectId)
+            GROUP BY d.id
+        """)
+    Page<DocumentStatsDto> findAllWithStatsDtoWithBookmark(
+            @Param("keyword") String keyword,
+            @Param("userId") Integer userId,
+            @Param("subjectId") Integer subjectId,
+            Pageable pageable);
+
 }

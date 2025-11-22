@@ -28,4 +28,16 @@ public interface QuizRepository extends JpaRepository<Quiz, Integer> {
               AND (:time IS NULL OR q.time = :time)
             """)
     Page<Quiz> findAllBySearchRequest(String keyword, Integer subjectId, QuizType type, QuizTime time, Pageable pageable);
+
+    @Query("""
+            SELECT q FROM Quiz q
+            LEFT JOIN q.subject s
+            WHERE (:keyword IS NULL OR LOWER(q.title) LIKE LOWER(CONCAT('%', :keyword, '%')))
+              AND (:subjectId IS NULL OR s.id = :subjectId)
+              AND (:type IS NULL OR q.type = :type)
+              AND (:time IS NULL OR q.time = :time)
+              AND (:userId IS NULL OR :userId = q.createBy)
+            """)
+    Page<Quiz> findAllBySearchRequest(String keyword, Integer subjectId, Integer userId,
+                                      QuizType type, QuizTime time, Pageable pageable);
 }

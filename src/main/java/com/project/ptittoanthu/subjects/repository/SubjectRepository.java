@@ -30,6 +30,21 @@ public interface SubjectRepository extends JpaRepository<Subject, Integer> {
             @Param("keyword") String keyword, Pageable pageable);
 
     @Query("""
+        SELECT s FROM Subject s
+        JOIN s.favoriteSubjects fs
+        WHERE fs.user.id = :userId
+          AND (:keyword IS NULL OR
+                LOWER(s.name) LIKE LOWER(CONCAT('%', :keyword, '%'))
+                OR LOWER(s.code) LIKE LOWER(CONCAT('%', :keyword, '%')))
+          AND (:majorId IS NULL OR s.major.id = :majorId)
+        """)
+    Page<Subject> findAllBySearchRequestFavorite(
+            @Param("majorId") Integer majorId,
+            @Param("userId") Integer userId,
+            @Param("keyword") String keyword,
+            Pageable pageable);
+
+    @Query("""
             SELECT s FROM Subject s
             JOIN s.users u
             WHERE u.id = :userId

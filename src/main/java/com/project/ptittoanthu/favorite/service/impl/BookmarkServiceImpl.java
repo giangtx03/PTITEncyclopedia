@@ -66,7 +66,7 @@ public class BookmarkServiceImpl implements BookmarkService {
     @Override
     public PageResult<List<Bookmark>> getMyBookmarks(SearchRequest request) {
         String email = SecurityUtils.getUserEmailFromSecurity();
-        Sort sort = SortHelper.buildSort(request.getOrder(), request.getDirection());
+        Sort sort = SortHelper.buildSort("b." + request.getOrder(), request.getDirection());
         Pageable pageable = PageRequest.of(request.getCurrentPage(), request.getPageSize(), sort);
 
         Page<Bookmark> page = bookmarkRepo.findAllBySearchAndUserEmail(request.getKeyword(), email, pageable);

@@ -40,7 +40,7 @@ public class AdminManagementServiceImpl implements AdminManagementService {
 
     @Override
     public PageResult<List<UserResponse>> getUsers(SearchUserRequest request) {
-        Sort sort = SortHelper.buildSort(request.getOrder(), request.getDirection());
+        Sort sort = SortHelper.buildSort("u." + request.getOrder(), request.getDirection());
         Pageable pageable = PageRequest.of(request.getCurrentPage() - 1, request.getPageSize(), sort);
 
         filterInterceptor.disableFilterForCurrentThread();

@@ -72,7 +72,7 @@ public class MajorServiceImpl implements MajorService {
 
     @Override
     public PageResult<List<MajorResponse>> getMajors(MajorSearchRequest searchRequest) {
-        Sort sort = SortHelper.buildSort(searchRequest.getOrder(), searchRequest.getDirection());
+        Sort sort = SortHelper.buildSort("m." + searchRequest.getOrder(), searchRequest.getDirection());
         Pageable pageable = PageRequest.of(searchRequest.getCurrentPage() - 1, searchRequest.getPageSize(), sort);
         Page<Major> majorPage = majorRepository.findAllBySearchRequest(searchRequest.getFacultyId(), searchRequest.getKeyword(), pageable);
         MetaDataResponse metaDataResponse = MetaDataHelper.buildMetaData(majorPage, searchRequest);
