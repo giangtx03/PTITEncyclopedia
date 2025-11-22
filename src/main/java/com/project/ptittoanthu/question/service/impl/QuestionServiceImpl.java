@@ -4,6 +4,7 @@ import com.project.ptittoanthu.common.base.dto.MetaDataResponse;
 import com.project.ptittoanthu.common.base.dto.PageResult;
 import com.project.ptittoanthu.common.helper.MetaDataHelper;
 import com.project.ptittoanthu.common.util.SecurityUtils;
+import com.project.ptittoanthu.infra.files.ExcelHelper;
 import com.project.ptittoanthu.question.dto.QuestionSearchRequest;
 import com.project.ptittoanthu.question.dto.request.CreateOptionRequest;
 import com.project.ptittoanthu.question.dto.request.CreateQuestionRequest;
@@ -25,12 +26,19 @@ import com.project.ptittoanthu.users.exception.UserNotFoundException;
 import com.project.ptittoanthu.users.model.User;
 import com.project.ptittoanthu.users.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.BadRequestException;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
+import redis.clients.jedis.search.aggr.Row;
 
+import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.util.List;
 
@@ -66,6 +74,31 @@ public class QuestionServiceImpl implements QuestionService {
         question.setTips(tips);
         questionRepository.save(question);
         return mapper.toQuestionResponseDetail(question);
+    }
+
+    @Transactional
+    @Override
+    public List<QuestionResponseDetail> createQuestionByExcelFile(Integer subjectId, MultipartFile file) throws BadRequestException {
+        String userEmail = SecurityUtils.getUserEmailFromSecurity();
+        User user = userRepository.findByEmail(userEmail)
+                .orElseThrow(() -> new UserNotFoundException(""));
+
+        Subject subject = subjectRepository.findById(subjectId)
+                .orElseThrow(() -> new SubjectNotFoundException(""));
+        if (!ExcelHelper.hasExcelFormat(file)) {
+            throw new BadRequestException("File format is not supported. Please use .xlsx");
+        }
+        try {
+            List<Question> questions = ExcelHelper.excelToQuestions(file.getInputStream());
+            questions.forEach(question -> {
+                question.setSubject(subject);
+                question.setUser(user);
+            });
+            questionRepository.saveAll(questions);
+            return mapper.toQuestionResponseDetail(questions);
+        } catch (IOException e) {
+            throw new RuntimeException("Không thể lưu dữ liệu excel: " + e.getMessage());
+        }
     }
 
     @Transactional

@@ -8,11 +8,14 @@ import com.project.ptittoanthu.question.dto.request.CreateTipRequest;
 import com.project.ptittoanthu.question.dto.request.UpdateQuestionRequest;
 import com.project.ptittoanthu.question.dto.response.QuestionResponse;
 import com.project.ptittoanthu.question.dto.response.QuestionResponseDetail;
+import org.apache.coyote.BadRequestException;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 public interface QuestionService {
     QuestionResponseDetail createQuestion(CreateQuestionRequest request);
+    List<QuestionResponseDetail> createQuestionByExcelFile(Integer subjectId, MultipartFile file) throws BadRequestException;
     QuestionResponseDetail addTip(Integer questionId ,CreateTipRequest request);
     QuestionResponseDetail addOption(Integer questionId , CreateOptionRequest request);
     QuestionResponseDetail updateQuestion(UpdateQuestionRequest request);

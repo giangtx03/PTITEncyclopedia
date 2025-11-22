@@ -32,6 +32,7 @@ public interface QuestionMapper {
 
     List<QuestionResponse> toQuestionResponse(List<Question> questions);
     QuestionResponseDetail toQuestionResponseDetail(Question question);
+    List<QuestionResponseDetail> toQuestionResponseDetail(List<Question> questions);
 
 
     @Mapping(target = "id", ignore = true)
