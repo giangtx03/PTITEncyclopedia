@@ -28,7 +28,7 @@ import lombok.experimental.FieldDefaults;
 @Builder
 public class QuizResultItem {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false, unique = true)
     Integer id;
 

@@ -66,7 +66,7 @@ public class FavoriteSubjectServiceImpl implements FavoriteSubjectService {
     @Override
     public PageResult<List<FavoriteSubject>> getMyFavorites(SearchRequest request) {
         String email = SecurityUtils.getUserEmailFromSecurity();
-        Sort sort = SortHelper.buildSort("f." + request.getOrder(), request.getDirection());
+        Sort sort = SortHelper.buildSort(request.getOrder(), request.getDirection());
         Pageable pageable = PageRequest.of(request.getCurrentPage(), request.getPageSize(), sort);
 
         Page<FavoriteSubject> page = favoriteRepo.findAllBySearchAndUserEmail(request.getKeyword(), email, pageable);

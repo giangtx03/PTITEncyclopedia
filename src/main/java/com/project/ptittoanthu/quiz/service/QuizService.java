@@ -11,6 +11,7 @@ import java.util.List;
 
 public interface QuizService {
     QuizResponseDetail createQuiz(CreateQuizRequest request);
+    QuizResponseDetail getQuiz(Integer id);
     PageResult<List<QuizResponse>> getQuizzes(QuizSearchRequest request);
     QuizResponseDetail updateQuiz(UpdateQuizRequest request);
     void delete(Integer id);

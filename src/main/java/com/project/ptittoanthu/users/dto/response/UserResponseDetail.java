@@ -1,5 +1,6 @@
 package com.project.ptittoanthu.users.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.project.ptittoanthu.users.model.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,6 +18,7 @@ import java.time.LocalDate;
 public class UserResponseDetail extends UserResponse {
     private String email;
     private String address;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     private LocalDate dob;
     private String phoneNumber;
     private Role role;

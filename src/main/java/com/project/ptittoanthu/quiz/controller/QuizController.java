@@ -92,6 +92,25 @@ public class QuizController {
                 .body(responseDto);
     }
 
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/{id}")
+    public ResponseEntity<ResponseDto<QuizResponseDetail>> getQuizDetail(
+            @PathVariable Integer id
+    ) {
+        QuizResponseDetail responseDetail = quizService.getQuiz(id);
+
+        StatusCodeEnum statusCodeEnum = StatusCodeEnum.REQUEST_SUCCESSFULLY;
+
+        ResponseDto<QuizResponseDetail> responseDto = ResponseBuilder.okResponse(
+                statusCodeEnum.code,
+                languageService.getMessage(statusCodeEnum.message),
+                responseDetail
+        );
+        return ResponseEntity
+                .status(statusCodeEnum.httpStatusCode)
+                .body(responseDto);
+    }
+
     @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
     @DeleteMapping("/{id}")
     public ResponseEntity<ResponseDto<Void>> delete(

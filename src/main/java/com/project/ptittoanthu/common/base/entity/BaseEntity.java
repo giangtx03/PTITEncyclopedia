@@ -14,10 +14,8 @@ import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.Filter;
 import org.hibernate.annotations.FilterDef;
-import org.hibernate.annotations.Generated;
-import org.hibernate.annotations.UuidGenerator;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -30,27 +28,27 @@ import java.time.OffsetDateTime;
 public class BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", length = 64, updatable = false, nullable = false)
     Integer id;
 
     @Column(name = "created_at", updatable = false)
-    private OffsetDateTime createdAt;
+    private LocalDateTime createdAt;
 
     @Column(name = "updated_at")
-    private OffsetDateTime updatedAt;
+    private LocalDateTime updatedAt;
 
     @Column(name = "deleted_at")
-    private OffsetDateTime deletedAt;
+    private LocalDateTime deletedAt;
 
     @PrePersist
     public void onCreate() {
-        createdAt = OffsetDateTime.now();
+        createdAt = LocalDateTime.now();
         updatedAt = createdAt;
     }
 
     @PreUpdate
     public void onUpdate() {
-        updatedAt = OffsetDateTime.now();
+        updatedAt = LocalDateTime.now();
     }
 }

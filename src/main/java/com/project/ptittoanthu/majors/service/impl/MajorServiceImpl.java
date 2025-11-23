@@ -26,7 +26,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -72,7 +72,7 @@ public class MajorServiceImpl implements MajorService {
 
     @Override
     public PageResult<List<MajorResponse>> getMajors(MajorSearchRequest searchRequest) {
-        Sort sort = SortHelper.buildSort("m." + searchRequest.getOrder(), searchRequest.getDirection());
+        Sort sort = SortHelper.buildSort(searchRequest.getOrder(), searchRequest.getDirection());
         Pageable pageable = PageRequest.of(searchRequest.getCurrentPage() - 1, searchRequest.getPageSize(), sort);
         Page<Major> majorPage = majorRepository.findAllBySearchRequest(searchRequest.getFacultyId(), searchRequest.getKeyword(), pageable);
         MetaDataResponse metaDataResponse = MetaDataHelper.buildMetaData(majorPage, searchRequest);
@@ -98,7 +98,7 @@ public class MajorServiceImpl implements MajorService {
         Major major = majorRepository.findById(id)
                 .orElseThrow(() -> new MajorNotFoundException(""));
 
-        major.setDeletedAt(OffsetDateTime.now());
+        major.setDeletedAt(LocalDateTime.now());
         majorRepository.save(major);
     }
 }

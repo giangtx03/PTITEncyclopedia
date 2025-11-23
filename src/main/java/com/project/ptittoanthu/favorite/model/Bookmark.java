@@ -4,8 +4,6 @@ import com.project.ptittoanthu.common.base.entity.BaseEntity;
 import com.project.ptittoanthu.documents.model.Document;
 import com.project.ptittoanthu.users.model.User;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
