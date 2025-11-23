@@ -38,7 +38,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -142,7 +142,7 @@ public class QuizResultServiceImpl implements QuizResultService {
     public void delete(Integer id) {
         QuizResult quizResult = quizResultRepository.findById(id)
                 .orElseThrow(() -> new QuizResultNotFoundExp(""));
-        quizResult.setDeletedAt(OffsetDateTime.now());
+        quizResult.setDeletedAt(LocalDateTime.now());
         quizResultRepository.save(quizResult);
     }
 }

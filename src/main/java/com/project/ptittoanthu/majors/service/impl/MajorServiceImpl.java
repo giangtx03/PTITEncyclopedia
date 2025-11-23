@@ -26,7 +26,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -98,7 +98,7 @@ public class MajorServiceImpl implements MajorService {
         Major major = majorRepository.findById(id)
                 .orElseThrow(() -> new MajorNotFoundException(""));
 
-        major.setDeletedAt(OffsetDateTime.now());
+        major.setDeletedAt(LocalDateTime.now());
         majorRepository.save(major);
     }
 }

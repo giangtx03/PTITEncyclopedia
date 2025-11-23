@@ -23,7 +23,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -86,7 +86,7 @@ public class FacultyServiceImpl implements FacultyService {
     public void deleteFaculty(Integer id) {
         Faculty faculty = facultyRepository.findById(id)
                 .orElseThrow(() -> new FacultyNotFoundException(""));
-        faculty.setDeletedAt(OffsetDateTime.now());
+        faculty.setDeletedAt(LocalDateTime.now());
         facultyRepository.save(faculty);
     }
 }

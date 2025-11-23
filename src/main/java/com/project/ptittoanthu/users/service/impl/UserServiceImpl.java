@@ -46,7 +46,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -99,7 +99,7 @@ public class UserServiceImpl implements UserService {
         String email = SecurityUtils.getUserEmailFromSecurity();
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new UserNotFoundException(""));
-        user.setDeletedAt(OffsetDateTime.now());
+        user.setDeletedAt(LocalDateTime.now());
         userRepository.save(user);
     }
 

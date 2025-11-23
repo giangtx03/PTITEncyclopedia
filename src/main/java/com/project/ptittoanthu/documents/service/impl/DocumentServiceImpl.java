@@ -36,7 +36,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -78,7 +78,11 @@ public class DocumentServiceImpl implements DocumentService {
         document.setFilePath(fileService.upload(request.getFile(), request.getType()));
 
         documentRepository.save(document);
-        subject.getUsers().forEach(u -> sendNotification(u,"Tài liệu mới được đăng tải", document.getTitle(),
+        if(!document.isEnable())
+            subject.getUsers().forEach(u -> sendNotification(u,"Tài liệu mới được đăng tải, cần duyệt", document.getTitle(),
+                    NotificationType.UPLOAD_DOCUMENT, document.getId()));
+        else subject.getFavoriteSubjects().forEach(fs -> sendNotification(fs.getUser(),
+                "Tài liệu mới đã được đăng tải", document.getTitle(),
                 NotificationType.UPLOAD_DOCUMENT, document.getId()));
         return documentMapper.toDocumentResponseDetail(document);
     }
@@ -128,6 +132,9 @@ public class DocumentServiceImpl implements DocumentService {
 
         document.setEnable(true);
         documentRepository.save(document);
+        document.getSubject().getFavoriteSubjects().forEach(fs -> sendNotification(fs.getUser(),
+                "Tài liệu mới đã được đăng tải", document.getTitle(),
+                NotificationType.UPLOAD_DOCUMENT, document.getId()));
         sendNotification(document.getOwner(),"Tài liệu được phát hành", document.getTitle(), NotificationType.DOCUMENT, document.getId());
         return documentMapper.toDocumentResponseDetail(document);
     }
@@ -149,7 +156,7 @@ public class DocumentServiceImpl implements DocumentService {
     public void deleteDocument(Integer id) {
         Document document = documentRepository.findById(id)
                 .orElseThrow(() -> new DocumentNotFoundExp(""));
-        document.setDeletedAt(OffsetDateTime.now());
+        document.setDeletedAt(LocalDateTime.now());
         documentRepository.save(document);
     }
 

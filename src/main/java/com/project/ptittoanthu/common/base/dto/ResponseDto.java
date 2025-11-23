@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -18,5 +18,5 @@ public class ResponseDto<T> {
     private String message;
     private T data;
     private int statusCode;
-    private OffsetDateTime time;
+    private LocalDateTime time;
 }
