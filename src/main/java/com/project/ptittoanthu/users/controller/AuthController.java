@@ -36,20 +36,20 @@ import java.util.TooManyListenersException;
 public class AuthController {
     private final AuthService authService;
     private final LanguageService languageService;
-    @Qualifier("redis")
-    private final LimitService redisLimitService;
+//    @Qualifier("redis")
+//    private final LimitService redisLimitService;
 
     @PostMapping("/login")
     public ResponseEntity<ResponseDto<LoginResponse>> login(
             @Valid @RequestBody LoginRequest loginRequest
     ) throws TooManyListenersException {
         try {
-            if (redisLimitService.isLoginBlocked(loginRequest.getEmail())) {
-                throw new TooManyListenersException("5");
-            }
+//            if (redisLimitService.isLoginBlocked(loginRequest.getEmail())) {
+//                throw new TooManyListenersException("5");
+//            }
 
             LoginResponse loginResponse = authService.login(loginRequest);
-            redisLimitService.resetLoginAttempts(loginRequest.getEmail());
+//            redisLimitService.resetLoginAttempts(loginRequest.getEmail());
 
             StatusCodeEnum statusCodeEnum = StatusCodeEnum.LOGIN_SUCCESSFULLY;
 
@@ -62,7 +62,7 @@ public class AuthController {
                     .status(statusCodeEnum.httpStatusCode)
                     .body(responseDto);
         } catch (Exception e) {
-            redisLimitService.increaseLoginAttempts(loginRequest.getEmail());
+//            redisLimitService.increaseLoginAttempts(loginRequest.getEmail());
             throw e;
         }
     }
@@ -74,12 +74,12 @@ public class AuthController {
     ) throws MessagingException, TooManyListenersException {
         String ipAddress = httpRequest.getRemoteAddr();
 
-        if (redisLimitService.isRegisterBlocked(ipAddress)) {
-            throw new TooManyListenersException("60");
-        }
+//        if (redisLimitService.isRegisterBlocked(ipAddress)) {
+//            throw new TooManyListenersException("60");
+//        }
 
         UserResponseDetail userResponseDetail = authService.register(registerRequest);
-        redisLimitService.increaseRegisterAttempts(ipAddress);
+//        redisLimitService.increaseRegisterAttempts(ipAddress);
 
         StatusCodeEnum statusCodeEnum = StatusCodeEnum.REGISTER_SUCCESSFULLY;
 
@@ -116,12 +116,12 @@ public class AuthController {
             HttpServletRequest request
     ) throws MessagingException, TooManyListenersException {
         String ipAddress = request.getRemoteAddr();
-        if (redisLimitService.isRequestBlocked(ipAddress)) {
-            throw new TooManyListenersException("10");
-        }
+//        if (redisLimitService.isRequestBlocked(ipAddress)) {
+//            throw new TooManyListenersException("10");
+//        }
 
         authService.resendEmailActive(email);
-        redisLimitService.increaseRequestAttempts(ipAddress);
+//        redisLimitService.increaseRequestAttempts(ipAddress);
         StatusCodeEnum statusCodeEnum = StatusCodeEnum.SEND_OTP_SUCCESSFULLY;
 
         ResponseDto<Void> responseDto = ResponseBuilder.okResponse(
@@ -140,11 +140,11 @@ public class AuthController {
             HttpServletRequest request
     ) throws MessagingException, TooManyListenersException {
         String ipAddress = request.getRemoteAddr();
-        if (redisLimitService.isRequestBlocked(ipAddress)) {
-            throw new TooManyListenersException("10");
-        }
+//        if (redisLimitService.isRequestBlocked(ipAddress)) {
+//            throw new TooManyListenersException("10");
+//        }
         authService.forgotPassword(email);
-        redisLimitService.increaseRequestAttempts(ipAddress);
+//        redisLimitService.increaseRequestAttempts(ipAddress);
         StatusCodeEnum statusCodeEnum = StatusCodeEnum.SEND_OTP_SUCCESSFULLY;
 
         ResponseDto<Void> responseDto = ResponseBuilder.okResponse(
@@ -191,8 +191,8 @@ public class AuthController {
 
     @PostMapping("/refresh-token")
     public ResponseEntity<ResponseDto<String>> refreshToken(
-            @Schema(name = "refreshToken", example = "123avc")
-            @NotBlank @RequestHeader("RefreshToken") String refreshToken
+            @Schema(name = "refresh-token", example = "123avc")
+            @NotBlank @RequestHeader("refresh-token") String refreshToken
     ) {
         String accessToken = authService.refreshToken(refreshToken);
         StatusCodeEnum statusCodeEnum = StatusCodeEnum.REQUEST_SUCCESSFULLY;
@@ -222,8 +222,8 @@ public class AuthController {
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/logout")
     public ResponseEntity<ResponseDto<Void>> logout(
-            @Schema(name = "refreshToken", example = "123avc")
-            @NotBlank @RequestHeader("RefreshToken") String refreshToken
+            @Schema(name = "refresh-token", example = "123avc")
+            @NotBlank @RequestHeader("refresh-token") String refreshToken
     ) {
         authService.logout(refreshToken);
         StatusCodeEnum statusCodeEnum = StatusCodeEnum.REQUEST_SUCCESSFULLY;

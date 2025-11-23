@@ -1,5 +1,6 @@
 package com.project.ptittoanthu.users.dto.request;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.project.ptittoanthu.common.base.annotation.ValidBirthDate;
 import com.project.ptittoanthu.common.base.annotation.ValidEmail;
 import com.project.ptittoanthu.common.base.annotation.ValidPassword;
@@ -11,7 +12,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
 
@@ -40,7 +40,7 @@ public class RegisterRequest {
     private String phoneNumber;
 
     @Schema(name = "dob", example = "10/10/2003")
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy")
     @NotNull(message = "valid.birthDate.notNull")
     @ValidBirthDate(message = "valid.birthDate.principle")
     private LocalDate dob;

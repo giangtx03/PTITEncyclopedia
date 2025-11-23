@@ -52,7 +52,7 @@ public class AuthServiceImpl implements AuthService {
     final UserMapper userMapper;
     final JwtProvider jwtProvider;
     final PasswordEncoder passwordEncoder;
-    final RedisTemplate<String, Object> redisTemplate;
+//    final RedisTemplate<String, Object> redisTemplate;
     final MailSender mailSender;
     final AuthenticationManager authenticationManager;
 
@@ -116,7 +116,7 @@ public class AuthServiceImpl implements AuthService {
         user.setActive(true);
         userRepo.save(user);
 
-        redisTemplate.delete(key);
+//        redisTemplate.delete(key);
     }
 
     @Override
@@ -158,7 +158,7 @@ public class AuthServiceImpl implements AuthService {
         if (!validateOtp(key, request.getOtp())) {
             throw new OtpInvalidException("Otp invalid");
         }
-        redisTemplate.delete(key);
+//        redisTemplate.delete(key);
         return jwtProvider.generateToken(user, resetPasswordKey, timeResetPassword);
     }
 
@@ -166,9 +166,9 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public void setPassword(SetPasswordRequest request) {
         String key = RedisUtils.createKey(KeyTypeEnum.BLACKLIST_TOKEN.value, request.getToken());
-        if (redisTemplate.hasKey(key)) {
-            throw new JWTVerificationException("Invalid token set password");
-        }
+//        if (redisTemplate.hasKey(key)) {
+//            throw new JWTVerificationException("Invalid token set password");
+//        }
         DecodedJWT decodeToken = jwtProvider.decodeToken(request.getToken(), resetPasswordKey);
         String email = decodeToken.getSubject();
 
@@ -177,16 +177,16 @@ public class AuthServiceImpl implements AuthService {
 
         user.setPassword(passwordEncoder.encode(request.getPassword()));
         userRepo.save(user);
-        redisTemplate.opsForValue().set(key, "invalid",
-                KeyTypeEnum.BLACKLIST_TOKEN.time, TimeUnit.MINUTES);
+//        redisTemplate.opsForValue().set(key, "invalid",
+//                KeyTypeEnum.BLACKLIST_TOKEN.time, TimeUnit.MINUTES);
     }
 
     public String refreshToken(String refreshToken) {
         log.error(refreshToken);
         String key = RedisUtils.createKey(KeyTypeEnum.BLACKLIST_TOKEN.value, refreshToken);
-        if (redisTemplate.hasKey(key)) {
-            throw new JWTVerificationException("Invalid refresh token");
-        }
+//        if (redisTemplate.hasKey(key)) {
+//            throw new JWTVerificationException("Invalid refresh token");
+//        }
 
         DecodedJWT decodeToken = jwtProvider.decodeToken(refreshToken, refreshKey);
         String email = decodeToken.getSubject();
@@ -200,21 +200,22 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public void logout(String refreshToken) {
         String key = RedisUtils.createKey(KeyTypeEnum.BLACKLIST_TOKEN.value, refreshToken);
-        redisTemplate.opsForValue().set(key, "invalid",
-                KeyTypeEnum.BLACKLIST_TOKEN.time, TimeUnit.MINUTES);
+//        redisTemplate.opsForValue().set(key, "invalid",
+//                KeyTypeEnum.BLACKLIST_TOKEN.time, TimeUnit.MINUTES);
 
         SecurityContextHolder.getContext().setAuthentication(null);
     }
 
     private void saveOtp(KeyTypeEnum keyTypeEnum, String subKey, String otp) {
         String key = RedisUtils.createKey(keyTypeEnum.value, subKey);
-        redisTemplate.opsForValue().set(key, otp, keyTypeEnum.time, TimeUnit.MINUTES);
-        log.info("OTP của user {} : {}", subKey,
-                Objects.requireNonNull(redisTemplate.opsForValue().get(key)));
+//        redisTemplate.opsForValue().set(key, otp, keyTypeEnum.time, TimeUnit.MINUTES);
+//        log.info("OTP của user {} : {}", subKey,
+//                Objects.requireNonNull(redisTemplate.opsForValue().get(key)));
     }
 
     private boolean validateOtp(String key, String otp) {
-        Object storedOtp = redisTemplate.opsForValue().get(key);
-        return storedOtp != null && otp.equals(storedOtp.toString());
+//        Object storedOtp = redisTemplate.opsForValue().get(key);
+//        return storedOtp != null && otp.equals(storedOtp.toString());
+        return true;
     }
 }
