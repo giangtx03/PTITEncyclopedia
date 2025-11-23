@@ -4,7 +4,6 @@ import com.project.ptittoanthu.common.base.dto.MetaDataResponse;
 import com.project.ptittoanthu.common.base.dto.PageResult;
 import com.project.ptittoanthu.common.helper.MetaDataHelper;
 import com.project.ptittoanthu.common.helper.SortHelper;
-import com.project.ptittoanthu.common.util.SecurityUtils;
 import com.project.ptittoanthu.faculties.exception.FacultyNotFoundException;
 import com.project.ptittoanthu.majors.exception.MajorCodeException;
 import com.project.ptittoanthu.majors.exception.MajorNotFoundException;
@@ -21,8 +20,6 @@ import com.project.ptittoanthu.subjects.mapper.SubjectMapper;
 import com.project.ptittoanthu.subjects.model.Subject;
 import com.project.ptittoanthu.subjects.repository.SubjectRepository;
 import com.project.ptittoanthu.subjects.service.SubjectService;
-import com.project.ptittoanthu.users.exception.UserNotFoundException;
-import com.project.ptittoanthu.users.model.User;
 import com.project.ptittoanthu.users.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -32,7 +29,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -79,7 +76,7 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Override
     public PageResult<List<SubjectResponse>> getSubjects(SubjectSearchRequest searchRequest) {
-        Sort sort = SortHelper.buildSort("b." + searchRequest.getOrder(), searchRequest.getDirection());
+        Sort sort = SortHelper.buildSort(searchRequest.getOrder(), searchRequest.getDirection());
         Pageable pageable = PageRequest.of(searchRequest.getCurrentPage() - 1, searchRequest.getPageSize(), sort);
         Page<Subject> subjectPage = subjectRepository.findAllBySearchRequest(searchRequest.getMajorId(),
                 searchRequest.getKeyword(), pageable);
@@ -105,7 +102,7 @@ public class SubjectServiceImpl implements SubjectService {
     public void deleteSubject(Integer id) {
         Subject subject = subjectRepository.findById(id)
                 .orElseThrow(() -> new SubjectNotFoundException(""));
-        subject.setDeletedAt(OffsetDateTime.now());
+        subject.setDeletedAt(LocalDateTime.now());
         subjectRepository.save(subject);
     }
 }

@@ -18,14 +18,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import lombok.RequiredArgsConstructor;
-import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.TooManyListenersException;
@@ -112,7 +111,7 @@ public class AuthController {
     @PostMapping("/resend-otp-activation")
     public ResponseEntity<ResponseDto<Void>> resendOtpActivation(
             @Schema(name = "email", example = "user@gmail.com")
-            @NotBlank(message = "valid.email.notBlank") @RequestBody String email,
+            @NotBlank(message = "valid.email.notBlank") @RequestParam("email") String email,
             HttpServletRequest request
     ) throws MessagingException, TooManyListenersException {
         String ipAddress = request.getRemoteAddr();
@@ -136,7 +135,7 @@ public class AuthController {
     @PostMapping("/forgot-password")
     public ResponseEntity<ResponseDto<Void>> forgotPassword(
             @Schema(name = "email", example = "user@gmail.com")
-            @NotBlank(message = "valid.email.notBlank") @RequestBody String email,
+            @NotBlank(message = "valid.email.notBlank") @RequestParam("email") String email,
             HttpServletRequest request
     ) throws MessagingException, TooManyListenersException {
         String ipAddress = request.getRemoteAddr();
@@ -192,7 +191,7 @@ public class AuthController {
     @PostMapping("/refresh-token")
     public ResponseEntity<ResponseDto<String>> refreshToken(
             @Schema(name = "refresh-token", example = "123avc")
-            @NotBlank @RequestHeader("refresh-token") String refreshToken
+            @NotBlank @RequestParam("refresh-token") String refreshToken
     ) {
         String accessToken = authService.refreshToken(refreshToken);
         StatusCodeEnum statusCodeEnum = StatusCodeEnum.REQUEST_SUCCESSFULLY;
@@ -223,7 +222,7 @@ public class AuthController {
     @PostMapping("/logout")
     public ResponseEntity<ResponseDto<Void>> logout(
             @Schema(name = "refresh-token", example = "123avc")
-            @NotBlank @RequestHeader("refresh-token") String refreshToken
+            @NotBlank @RequestParam("refresh-token") String refreshToken
     ) {
         authService.logout(refreshToken);
         StatusCodeEnum statusCodeEnum = StatusCodeEnum.REQUEST_SUCCESSFULLY;

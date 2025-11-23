@@ -8,10 +8,12 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -62,4 +64,7 @@ public class Quiz extends BaseEntity {
             inverseJoinColumns = @JoinColumn(name = "question_id")
     )
     List<Question> questions;
+
+    @OneToMany(mappedBy = "quiz", fetch = FetchType.LAZY)
+    List<QuizResult> quizResults;
 }

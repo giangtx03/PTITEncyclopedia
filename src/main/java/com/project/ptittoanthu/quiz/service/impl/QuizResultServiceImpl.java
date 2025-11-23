@@ -38,7 +38,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -119,7 +119,7 @@ public class QuizResultServiceImpl implements QuizResultService {
         Integer userId = currentUser.getRole().equals(Role.STUDENT)
                 ? currentUser.getId()
                 : null;
-        Sort sort = SortHelper.buildSort("qr."+request.getOrder(), request.getDirection());
+        Sort sort = SortHelper.buildSort(request.getOrder(), request.getDirection());
         Pageable pageable = PageRequest.of(request.getCurrentPage() - 1, request.getPageSize(), sort);
 
         Page<QuizResult> page = quizResultRepository.findAllBySearch(
@@ -142,7 +142,7 @@ public class QuizResultServiceImpl implements QuizResultService {
     public void delete(Integer id) {
         QuizResult quizResult = quizResultRepository.findById(id)
                 .orElseThrow(() -> new QuizResultNotFoundExp(""));
-        quizResult.setDeletedAt(OffsetDateTime.now());
+        quizResult.setDeletedAt(LocalDateTime.now());
         quizResultRepository.save(quizResult);
     }
 }
