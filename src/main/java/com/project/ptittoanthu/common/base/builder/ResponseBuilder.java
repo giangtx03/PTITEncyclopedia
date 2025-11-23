@@ -5,7 +5,7 @@ import com.project.ptittoanthu.common.base.dto.PageResult;
 import com.project.ptittoanthu.common.base.dto.ResponseDto;
 import lombok.experimental.UtilityClass;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 
 @UtilityClass
 public class ResponseBuilder {
@@ -14,7 +14,7 @@ public class ResponseBuilder {
                 .success(true)
                 .message(message)
                 .statusCode(code)
-                .time(OffsetDateTime.now())
+                .time(LocalDateTime.now())
                 .build();
     }
 
@@ -24,7 +24,7 @@ public class ResponseBuilder {
                 .message(message)
                 .statusCode(code)
                 .data(data)
-                .time(OffsetDateTime.now())
+                .time(LocalDateTime.now())
                 .build();
     }
 
@@ -35,7 +35,7 @@ public class ResponseBuilder {
                 .statusCode(code)
                 .data(result.getData())
                 .metadata(result.getMetaDataResponse())
-                .time(OffsetDateTime.now())
+                .time(LocalDateTime.now())
                 .build();
     }
 
@@ -44,7 +44,7 @@ public class ResponseBuilder {
                 .success(false)
                 .message(message)
                 .statusCode(code)
-                .time(OffsetDateTime.now())
+                .time(LocalDateTime.now())
                 .build();
     }
 
@@ -54,7 +54,7 @@ public class ResponseBuilder {
                 .message(message)
                 .statusCode(code)
                 .data(data)
-                .time(OffsetDateTime.now())
+                .time(LocalDateTime.now())
                 .build();
     }
 }
