@@ -6,13 +6,14 @@ import com.project.ptittoanthu.documents.dto.request.UpdateDocumentRequest;
 import com.project.ptittoanthu.documents.dto.response.DocumentResponse;
 import com.project.ptittoanthu.documents.dto.response.DocumentResponseDetail;
 import com.project.ptittoanthu.documents.model.Document;
+import com.project.ptittoanthu.subjects.mapper.SubjectMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {SubjectMapper.class})
 public interface DocumentMapper {
 
     @Mapping(target = "id", ignore = true)

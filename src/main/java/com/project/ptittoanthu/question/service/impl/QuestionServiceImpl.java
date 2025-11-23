@@ -27,19 +27,15 @@ import com.project.ptittoanthu.users.model.User;
 import com.project.ptittoanthu.users.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.coyote.BadRequestException;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import redis.clients.jedis.search.aggr.Row;
 
 import java.io.IOException;
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -144,7 +140,7 @@ public class QuestionServiceImpl implements QuestionService {
         Question question = questionRepository.findById(id)
                 .orElseThrow(() -> new QuestionNotFoundExp("Not found question"));
 
-        question.setDeletedAt(OffsetDateTime.now());
+        question.setDeletedAt(LocalDateTime.now());
         questionRepository.save(question);
     }
 

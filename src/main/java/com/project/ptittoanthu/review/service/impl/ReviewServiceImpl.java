@@ -31,7 +31,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -84,7 +84,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public PageResult<List<ReviewResponse>> getReviews(ReviewSearchRequest request) {
-        Sort sort = SortHelper.buildSort("r." + request.getOrder(), request.getDirection());
+        Sort sort = SortHelper.buildSort(request.getOrder(), request.getDirection());
         Pageable pageable = PageRequest.of(request.getCurrentPage() - 1, request.getPageSize(), sort);
 
         Page<Review> page = reviewRepository.findAllBySearch(
@@ -104,7 +104,7 @@ public class ReviewServiceImpl implements ReviewService {
         String userEmail = SecurityUtils.getUserEmailFromSecurity();
         Review review = reviewRepository.findByIdWithUserEmail(id, userEmail)
                 .orElseThrow(() -> new ReviewNotFoundExp(""));
-        review.setDeletedAt(OffsetDateTime.now());
+        review.setDeletedAt(LocalDateTime.now());
         reviewRepository.save(review);
     }
 }

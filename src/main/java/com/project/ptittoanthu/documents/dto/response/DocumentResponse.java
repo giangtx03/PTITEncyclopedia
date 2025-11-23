@@ -4,6 +4,7 @@ import com.project.ptittoanthu.common.base.constant.PropertyUrlConstant;
 import com.project.ptittoanthu.common.base.dto.BaseResponse;
 import com.project.ptittoanthu.configs.aop.UrlPrefix;
 import com.project.ptittoanthu.documents.model.DocumentType;
+import com.project.ptittoanthu.subjects.dto.response.SubjectResponse;
 import com.project.ptittoanthu.users.dto.response.UserResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,4 +26,5 @@ public class DocumentResponse extends BaseResponse {
     UserResponse owner;
     Long bookmarkCount;
     Double avgRating;
+    SubjectResponse subject;
 }
