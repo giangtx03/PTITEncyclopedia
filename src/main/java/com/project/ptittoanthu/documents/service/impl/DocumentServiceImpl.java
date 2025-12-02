@@ -162,7 +162,7 @@ public class DocumentServiceImpl implements DocumentService {
 
     @Override
     public PageResult<List<DocumentResponse>> getDocs(DocumentSearchRequest request) {
-        Sort sort = SortHelper.buildSort("d." + request.getOrder(), request.getDirection());
+        Sort sort = SortHelper.buildSort(request.getOrder(), request.getDirection());
         Pageable pageable = PageRequest.of(request.getCurrentPage() - 1, request.getPageSize(), sort);
 
         Page<DocumentStatsDto> documents = documentRepository.findAllWithStatsDto(request.getKeyword() ,request.getSubjectId(), pageable);

@@ -84,7 +84,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public PageResult<List<ReviewResponse>> getReviews(ReviewSearchRequest request) {
-        Sort sort = SortHelper.buildSort("r." + request.getOrder(), request.getDirection());
+        Sort sort = SortHelper.buildSort(request.getOrder(), request.getDirection());
         Pageable pageable = PageRequest.of(request.getCurrentPage() - 1, request.getPageSize(), sort);
 
         Page<Review> page = reviewRepository.findAllBySearch(

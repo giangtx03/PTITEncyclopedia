@@ -90,7 +90,7 @@ public class QuizServiceImpl implements QuizService {
 
     @Override
     public PageResult<List<QuizResponse>> getQuizzes(QuizSearchRequest request) {
-        Sort sort = SortHelper.buildSort("q."+request.getOrder(), request.getDirection());
+        Sort sort = SortHelper.buildSort(request.getOrder(), request.getDirection());
         Pageable pageable = PageRequest.of(request.getCurrentPage() - 1, request.getPageSize(), sort);
 
         Page<Quiz> quizzes = quizRepository.findAllBySearchRequest(request.getKeyword() ,request.getSubjectId(),

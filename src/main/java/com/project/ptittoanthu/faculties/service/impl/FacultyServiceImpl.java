@@ -61,7 +61,7 @@ public class FacultyServiceImpl implements FacultyService {
 
     @Override
     public PageResult<List<FacultyResponse>> getFaculties(SearchRequest searchRequest) {
-        Sort sort = SortHelper.buildSort("f." + searchRequest.getOrder(), searchRequest.getDirection());
+        Sort sort = SortHelper.buildSort(searchRequest.getOrder(), searchRequest.getDirection());
         Pageable pageable = PageRequest.of(searchRequest.getCurrentPage() - 1, searchRequest.getPageSize(), sort);
         Page<Faculty> facultyPage = facultyRepository.findAllBySearchRequest(searchRequest.getKeyword(), pageable);
         MetaDataResponse metaDataResponse = MetaDataHelper.buildMetaData(facultyPage, searchRequest);

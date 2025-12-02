@@ -76,7 +76,7 @@ public class SubjectServiceImpl implements SubjectService {
 
     @Override
     public PageResult<List<SubjectResponse>> getSubjects(SubjectSearchRequest searchRequest) {
-        Sort sort = SortHelper.buildSort("b." + searchRequest.getOrder(), searchRequest.getDirection());
+        Sort sort = SortHelper.buildSort(searchRequest.getOrder(), searchRequest.getDirection());
         Pageable pageable = PageRequest.of(searchRequest.getCurrentPage() - 1, searchRequest.getPageSize(), sort);
         Page<Subject> subjectPage = subjectRepository.findAllBySearchRequest(searchRequest.getMajorId(),
                 searchRequest.getKeyword(), pageable);

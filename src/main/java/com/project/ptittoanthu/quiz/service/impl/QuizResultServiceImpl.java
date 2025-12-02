@@ -119,7 +119,7 @@ public class QuizResultServiceImpl implements QuizResultService {
         Integer userId = currentUser.getRole().equals(Role.STUDENT)
                 ? currentUser.getId()
                 : null;
-        Sort sort = SortHelper.buildSort("qr."+request.getOrder(), request.getDirection());
+        Sort sort = SortHelper.buildSort(request.getOrder(), request.getDirection());
         Pageable pageable = PageRequest.of(request.getCurrentPage() - 1, request.getPageSize(), sort);
 
         Page<QuizResult> page = quizResultRepository.findAllBySearch(

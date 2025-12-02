@@ -37,7 +37,7 @@ public class TeacherManagementServiceImpl implements TeacherManagementService {
 
     @Override
     public PageResult<List<SubjectResponse>> getTheSubjectsOfTeacher(SearchRequest request) {
-        Sort sort = SortHelper.buildSort("s." + request.getOrder(), request.getDirection());
+        Sort sort = SortHelper.buildSort(request.getOrder(), request.getDirection());
         Pageable pageable = PageRequest.of(request.getCurrentPage() - 1, request.getPageSize(), sort);
 
         String userEmail = SecurityUtils.getUserEmailFromSecurity();

@@ -127,7 +127,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public PageResult<List<QuizResponse>> getMyQuizzes(QuizSearchRequest request) {
-        Sort sort = SortHelper.buildSort("q." + request.getOrder(), request.getDirection());
+        Sort sort = SortHelper.buildSort(request.getOrder(), request.getDirection());
         Pageable pageable = PageRequest.of(request.getCurrentPage() - 1, request.getPageSize(), sort);
 
         String email = SecurityUtils.getUserEmailFromSecurity();
@@ -147,7 +147,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public PageResult<List<QuizResultResponse>> getMyQuizResults(QuizResultSearchRequest request) {
-        Sort sort = SortHelper.buildSort("qr." + request.getOrder(), request.getDirection());
+        Sort sort = SortHelper.buildSort(request.getOrder(), request.getDirection());
         Pageable pageable = PageRequest.of(request.getCurrentPage() - 1, request.getPageSize(), sort);
 
         String email = SecurityUtils.getUserEmailFromSecurity();
@@ -171,7 +171,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public PageResult<List<DocumentResponse>> getMyDocuments(DocumentSearchRequest request) {
-        Sort sort = SortHelper.buildSort("d." + request.getOrder(), request.getDirection());
+        Sort sort = SortHelper.buildSort(request.getOrder(), request.getDirection());
         Pageable pageable = PageRequest.of(request.getCurrentPage() - 1, request.getPageSize(), sort);
 
         String email = SecurityUtils.getUserEmailFromSecurity();
@@ -190,7 +190,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public PageResult<List<DocumentResponse>> getMyBookmarks(DocumentSearchRequest request) {
-        Sort sort = SortHelper.buildSort("d." + request.getOrder(), request.getDirection());
+        Sort sort = SortHelper.buildSort(request.getOrder(), request.getDirection());
         Pageable pageable = PageRequest.of(request.getCurrentPage() - 1, request.getPageSize(), sort);
 
         String email = SecurityUtils.getUserEmailFromSecurity();
@@ -210,7 +210,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public PageResult<List<SubjectResponse>> getMyFavoriteSubjects(SubjectSearchRequest request) {
-        Sort sort = SortHelper.buildSort("s." + request.getOrder(), request.getDirection());
+        Sort sort = SortHelper.buildSort(request.getOrder(), request.getDirection());
         Pageable pageable = PageRequest.of(request.getCurrentPage() - 1, request.getPageSize(), sort);
 
         String email = SecurityUtils.getUserEmailFromSecurity();
