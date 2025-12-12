@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 
 @Component
 public class JwtProvider {
@@ -37,15 +38,16 @@ public class JwtProvider {
                 .build();
     }
 
-    public String generateToken(User userModel, String key, Long time) {
-        Algorithm algorithmRefresh = Algorithm.HMAC256(key.getBytes());
-        Instant now = Instant.now();
+    public String generateToken(User userModel, String key, Long timeInMillis) {
+        Algorithm algorithm = Algorithm.HMAC256(key.getBytes());
+        Instant now = Instant.now().truncatedTo(ChronoUnit.SECONDS);
+        Instant expiresAt = now.plusMillis(timeInMillis);
         return JWT.create()
                 .withSubject(userModel.getEmail())
                 .withIssuer(PTITEncyclopedia.class.getPackageName())
                 .withIssuedAt(now)
-                .withExpiresAt(now.plus(Duration.ofMillis(time)))
-                .sign(algorithmRefresh);
+                .withExpiresAt(expiresAt)
+                .sign(algorithm);
     }
 
     public DecodedJWT decodeToken(String token, String key) {
