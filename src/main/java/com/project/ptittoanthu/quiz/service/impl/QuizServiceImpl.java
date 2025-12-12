@@ -77,6 +77,13 @@ public class QuizServiceImpl implements QuizService {
         return quizMapper.toQuizResponseDetail(quiz);
     }
 
+    @Override
+    public QuizResponseDetail getQuiz(Integer id) {
+        Quiz quiz = quizRepository.findById(id)
+                .orElseThrow(() -> new QuizNotFoundExp(""));
+        return quizMapper.toQuizResponseDetail(quiz);
+    }
+
     private void sendNotification(User user, String title, String msg, NotificationType type, Integer targetId) {
         notificationService.createNotification(
                 CreateNotificationRequest.builder()
