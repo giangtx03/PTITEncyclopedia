@@ -67,15 +67,21 @@ public class QuizResultServiceImpl implements QuizResultService {
         quizResult.setUser(user);
         List<QuizResultItem> quizResultItems = request.getQuizResultItemRequests()
                 .stream()
-                .map(quizResultItemRequest -> {
-                    Question question = questionRepository.findById(quizResultItemRequest.getQuestionId())
-                            .orElseThrow(() -> new QuestionNotFoundExp(""));
-                    Option option = optionRepository.findById(quizResultItemRequest.getSelectedId())
-                            .orElseThrow(() -> new OptionNotFoundExp(""));
+                .map(req -> {
+                    Question question = questionRepository.findById(req.getQuestionId())
+                            .orElseThrow(() -> new QuestionNotFoundExp("Question not found ID: " + req.getQuestionId()));
+                    Option selectedOption = null;
+                    if (req.getSelectedId() != null) {
+                        selectedOption = optionRepository.findById(req.getSelectedId())
+                                .orElseThrow(() -> new OptionNotFoundExp("Option not found ID: " + req.getSelectedId()));
+                        if (!selectedOption.getQuestion().getId().equals(question.getId())) {
+                            throw new IllegalArgumentException("Đáp án không thuộc về câu hỏi này");
+                        }
+                    }
                     return QuizResultItem.builder()
                             .question(question)
                             .quizResult(quizResult)
-                            .selected(option)
+                            .selected(selectedOption)
                             .build();
                 })
                 .toList();

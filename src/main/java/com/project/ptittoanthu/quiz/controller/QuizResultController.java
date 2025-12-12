@@ -33,7 +33,7 @@ public class QuizResultController {
 
     private final QuizResultService quizResultService;
     private final LanguageService languageService;
-    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
+    @PreAuthorize("isAuthenticated()")
     @PostMapping
     public ResponseEntity<ResponseDto<QuizResultResponse>> createQuizResult(
             @Valid @RequestBody CreateQuizResultRequest request
@@ -88,7 +88,7 @@ public class QuizResultController {
                 .body(responseDto);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN', 'TEACHER')")
+    @PreAuthorize("isAuthenticated()")
     @DeleteMapping("/{id}")
     public ResponseEntity<ResponseDto<Void>> delete(
             @PathVariable Integer id

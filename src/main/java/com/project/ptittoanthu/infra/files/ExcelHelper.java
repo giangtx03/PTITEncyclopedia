@@ -64,6 +64,7 @@ public class ExcelHelper {
                     if (!optionVal.isEmpty()) {
                         Option option = new Option();
                         option.setValue(optionVal);
+                        option.setQuestion(question);
                         if ((i - 1) == correctIndex) {
                             option.setCorrect(true);
                         } else {
