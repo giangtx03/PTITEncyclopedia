@@ -3,6 +3,7 @@ package com.project.ptittoanthu.infra.files;
 import com.project.ptittoanthu.question.model.Option;
 import com.project.ptittoanthu.question.model.Question;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -22,53 +23,61 @@ public class ExcelHelper {
     }
 
     public static List<Question> excelToQuestions(InputStream is) {
-        try {
-            Workbook workbook = new XSSFWorkbook(is);
-            Sheet sheet = workbook.getSheetAt(0); // Lấy sheet đầu tiên
+        try (Workbook workbook = new XSSFWorkbook(is)) { // Dùng try-with-resources để tự đóng file
+            Sheet sheet = workbook.getSheetAt(0);
             List<Question> questions = new ArrayList<>();
+
+            // --- CHÌA KHÓA ĐỂ FIX LỖI ---
+            DataFormatter formatter = new DataFormatter();
 
             int rowIndex = 0;
             for (Row row : sheet) {
-                // Bỏ qua header row
+                // 1. Bỏ qua header
                 if (rowIndex == 0) {
                     rowIndex++;
                     continue;
                 }
-
+                if (row == null) continue;
+                String content = formatter.formatCellValue(row.getCell(0));
+                if (content == null || content.trim().isEmpty()) {
+                    continue;
+                }
                 Question question = new Question();
-
-                // Cột 0: Nội dung câu hỏi
-                Cell questionCell = row.getCell(0);
-                if(questionCell == null) continue; // Bỏ qua dòng trống
-                question.setContent(questionCell.getStringCellValue());
-
-                // Lấy index đáp án đúng (Cột 5 - Index F)
-                // Giả sử người dùng nhập 1, 2, 3, 4. Trừ 1 để ra index mảng (0-3)
-                int correctIndex = (int) row.getCell(5).getNumericCellValue() - 1;
-
-                // Duyệt các cột Option (Từ cột 1 đến 4)
+                question.setContent(content);
+                if (question.getOptions() == null) {
+                    question.setOptions(new ArrayList<>());
+                }
+                int correctIndex = -1;
+                try {
+                    String indexStr = formatter.formatCellValue(row.getCell(5));
+                    if (!indexStr.isEmpty()) {
+                        double val = Double.parseDouble(indexStr);
+                        correctIndex = (int) val - 1;
+                    }
+                } catch (NumberFormatException e) {
+                    System.err.println("Lỗi format cột Index ở dòng " + rowIndex + ": " + e.getMessage());
+                }
+                boolean hasOptions = false;
                 for (int i = 1; i <= 4; i++) {
-                    Cell optionCell = row.getCell(i);
-                    if (optionCell != null) {
-                        Option option = new Option();
-                        option.setValue(optionCell.getStringCellValue());
+                    String optionVal = formatter.formatCellValue(row.getCell(i));
 
-                        // Kiểm tra xem đây có phải đáp án đúng không
+                    if (!optionVal.isEmpty()) {
+                        Option option = new Option();
+                        option.setValue(optionVal);
                         if ((i - 1) == correctIndex) {
                             option.setCorrect(true);
                         } else {
                             option.setCorrect(false);
                         }
-
-                        // Thêm option vào question (dùng helper method ở Entity)
                         question.getOptions().add(option);
+                        hasOptions = true;
                     }
                 }
-
-                questions.add(question);
+                if (hasOptions) {
+                    questions.add(question);
+                }
                 rowIndex++;
             }
-            workbook.close();
             return questions;
 
         } catch (IOException e) {
