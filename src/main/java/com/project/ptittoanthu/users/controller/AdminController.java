@@ -38,14 +38,14 @@ public class AdminController {
     private final LanguageService languageService;
 
     @GetMapping("/users")
-    public ResponseEntity<PageResponseDto<List<UserResponse>>> getUsers(
+    public ResponseEntity<PageResponseDto<List<UserResponseDetail>>> getUsers(
             @Valid @ParameterObject SearchUserRequest searchRequest
     ) {
-        PageResult<List<UserResponse>> result = adminManagementService.getUsers(searchRequest);
+        PageResult<List<UserResponseDetail>> result = adminManagementService.getUsers(searchRequest);
 
         StatusCodeEnum statusCodeEnum = StatusCodeEnum.REQUEST_SUCCESSFULLY;
 
-        PageResponseDto<List<UserResponse>> responseDto = ResponseBuilder.okResponse(
+        PageResponseDto<List<UserResponseDetail>> responseDto = ResponseBuilder.okResponse(
                 statusCodeEnum.code,
                 languageService.getMessage(statusCodeEnum.message),
                 result

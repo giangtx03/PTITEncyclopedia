@@ -39,7 +39,7 @@ public class AdminManagementServiceImpl implements AdminManagementService {
     private final FilterInterceptor filterInterceptor;
 
     @Override
-    public PageResult<List<UserResponse>> getUsers(SearchUserRequest request) {
+    public PageResult<List<UserResponseDetail>> getUsers(SearchUserRequest request) {
         Sort sort = SortHelper.buildSort(request.getOrder(), request.getDirection());
         Pageable pageable = PageRequest.of(request.getCurrentPage() - 1, request.getPageSize(), sort);
 
@@ -47,9 +47,9 @@ public class AdminManagementServiceImpl implements AdminManagementService {
         Page<User> page = userRepository.findAllBySearchRequest(request.getKeyword(),
                 request.getActive(), request.getLocked(), request.getRole(), pageable);
         MetaDataResponse metaDataResponse = MetaDataHelper.buildMetaData(page, request);
-        List<UserResponse> responses = page.getContent().stream()
-                .map(userMapper::toBaseResponse).toList();
-        return PageResult.<List<UserResponse>>builder()
+        List<UserResponseDetail> responses = page.getContent().stream()
+                .map(userMapper::toResponse).toList();
+        return PageResult.<List<UserResponseDetail>>builder()
                 .metaDataResponse(metaDataResponse)
                 .data(responses)
                 .build();

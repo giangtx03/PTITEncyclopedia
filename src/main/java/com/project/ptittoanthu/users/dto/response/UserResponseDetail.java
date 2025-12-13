@@ -22,4 +22,6 @@ public class UserResponseDetail extends UserResponse {
     private LocalDate dob;
     private String phoneNumber;
     private Role role;
+    private boolean active;
+    private boolean locked;
 }
