@@ -3,6 +3,8 @@ package com.project.ptittoanthu.configs.security;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.project.ptittoanthu.users.exception.UserNotFoundException;
 import com.project.ptittoanthu.common.base.builder.ResponseBuilder;
 import com.project.ptittoanthu.common.base.constant.AuthConstant;
@@ -100,6 +102,8 @@ public class JwtFilter extends OncePerRequestFilter {
         );
 
         ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
         response.getWriter().write(objectMapper.writeValueAsString(responseDto));
         response.flushBuffer();
