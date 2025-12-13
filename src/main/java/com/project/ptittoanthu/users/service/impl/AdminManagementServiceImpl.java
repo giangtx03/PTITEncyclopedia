@@ -10,7 +10,6 @@ import com.project.ptittoanthu.subjects.model.Subject;
 import com.project.ptittoanthu.subjects.repository.SubjectRepository;
 import com.project.ptittoanthu.users.dto.SearchUserRequest;
 import com.project.ptittoanthu.users.dto.request.UpdateUserRequest;
-import com.project.ptittoanthu.users.dto.response.UserResponse;
 import com.project.ptittoanthu.users.dto.response.UserResponseDetail;
 import com.project.ptittoanthu.users.exception.UserNotFoundException;
 import com.project.ptittoanthu.users.mapper.UserMapper;

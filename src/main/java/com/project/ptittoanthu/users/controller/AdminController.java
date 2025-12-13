@@ -8,7 +8,6 @@ import com.project.ptittoanthu.common.base.enums.StatusCodeEnum;
 import com.project.ptittoanthu.infra.language.LanguageService;
 import com.project.ptittoanthu.users.dto.SearchUserRequest;
 import com.project.ptittoanthu.users.dto.request.UpdateUserRequest;
-import com.project.ptittoanthu.users.dto.response.UserResponse;
 import com.project.ptittoanthu.users.dto.response.UserResponseDetail;
 import com.project.ptittoanthu.users.service.AdminManagementService;
 import jakarta.validation.Valid;

@@ -80,6 +80,7 @@ public abstract class AbstractFileService implements FileService {
 
     @Override
     public void delete(String filename) throws IOException {
+        if (filename == null) return;
         Path fileSrc = rootLocation.resolve(filename);
         Files.deleteIfExists(fileSrc);
     }
