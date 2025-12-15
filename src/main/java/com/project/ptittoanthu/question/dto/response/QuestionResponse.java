@@ -17,5 +17,5 @@ import java.util.List;
 public class QuestionResponse extends BaseResponse {
     private Integer id;
     private String content;
-    private List<OptionResponse> options;
+    private List<OptionResponseDetail> options;
 }
