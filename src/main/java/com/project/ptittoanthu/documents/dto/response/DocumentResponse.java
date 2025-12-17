@@ -26,5 +26,6 @@ public class DocumentResponse extends BaseResponse {
     UserResponse owner;
     Long bookmarkCount;
     Double avgRating;
+    boolean enable;
     SubjectResponse subject;
 }

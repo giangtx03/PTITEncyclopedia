@@ -25,8 +25,10 @@ public interface QuestionRepository extends JpaRepository<Question, Integer> {
             SELECT q FROM Question q
             LEFT JOIN q.quizzes quiz
             WHERE (:quizId IS NULL OR quiz.id = :quizId)
+            AND (:keyword IS NULL OR LOWER(q.content) LIKE LOWER(CONCAT('%', :keyword, '%')))
             """)
-    Page<Question> findAllBySearchRequest(@Param("quizId") Integer quizId, Pageable pageable);
+    Page<Question> findAllBySearchRequest(@Param("keyword") String keyword,
+                                          @Param("quizId") Integer quizId, Pageable pageable);
 
     @Query("""
             SELECT q FROM Question q

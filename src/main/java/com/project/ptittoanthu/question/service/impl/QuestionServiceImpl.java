@@ -3,6 +3,7 @@ package com.project.ptittoanthu.question.service.impl;
 import com.project.ptittoanthu.common.base.dto.MetaDataResponse;
 import com.project.ptittoanthu.common.base.dto.PageResult;
 import com.project.ptittoanthu.common.helper.MetaDataHelper;
+import com.project.ptittoanthu.common.helper.SortHelper;
 import com.project.ptittoanthu.common.util.SecurityUtils;
 import com.project.ptittoanthu.infra.files.ExcelHelper;
 import com.project.ptittoanthu.question.dto.QuestionSearchRequest;
@@ -30,6 +31,7 @@ import org.apache.coyote.BadRequestException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -146,8 +148,9 @@ public class QuestionServiceImpl implements QuestionService {
 
     @Override
     public PageResult<List<QuestionResponse>> getQuestions(QuestionSearchRequest searchRequest) {
-        Pageable pageable = PageRequest.of(searchRequest.getCurrentPage() - 1, searchRequest.getPageSize());
-        Page<Question> questions = questionRepository.findAllBySearchRequest(searchRequest.getQuizId(), pageable);
+        Sort sort = SortHelper.buildSort(searchRequest.getOrder(), searchRequest.getDirection());
+        Pageable pageable = PageRequest.of(searchRequest.getCurrentPage() - 1, searchRequest.getPageSize(), sort);
+        Page<Question> questions = questionRepository.findAllBySearchRequest(searchRequest.getKeyword(), searchRequest.getQuizId(), pageable);
 
         List<QuestionResponse> responses = mapper.toQuestionResponse(questions.getContent());
         MetaDataResponse metaDataResponse = MetaDataHelper.buildMetaData(questions, searchRequest);
