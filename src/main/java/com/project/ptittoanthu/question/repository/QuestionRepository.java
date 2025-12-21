@@ -20,10 +20,10 @@ public interface QuestionRepository extends JpaRepository<Question, Integer> {
             """)
     Optional<Question> findById(@Param("id") Integer id);
 
-    @EntityGraph(attributePaths = {"options"})
+    @EntityGraph(attributePaths = {"options", "subject"})
     @Query("""
             SELECT q FROM Question q
-            LEFT JOIN q.quizzes quiz
+            LEFT JOIN q.subject quiz
             WHERE (:quizId IS NULL OR quiz.id = :quizId)
             AND (:keyword IS NULL OR LOWER(q.content) LIKE LOWER(CONCAT('%', :keyword, '%')))
             """)

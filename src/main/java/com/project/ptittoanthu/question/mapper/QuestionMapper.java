@@ -9,13 +9,14 @@ import com.project.ptittoanthu.question.dto.response.QuestionResponseDetail;
 import com.project.ptittoanthu.question.model.Option;
 import com.project.ptittoanthu.question.model.Question;
 import com.project.ptittoanthu.question.model.Tip;
+import com.project.ptittoanthu.subjects.mapper.SubjectMapper;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", uses = {TipMapper.class, OptionMapper.class})
+@Mapper(componentModel = "spring", uses = {TipMapper.class, OptionMapper.class, SubjectMapper.class})
 public interface QuestionMapper {
 
     @Mapping(target = "id", ignore = true)

@@ -150,7 +150,7 @@ public class QuestionServiceImpl implements QuestionService {
     public PageResult<List<QuestionResponse>> getQuestions(QuestionSearchRequest searchRequest) {
         Sort sort = SortHelper.buildSort(searchRequest.getOrder(), searchRequest.getDirection());
         Pageable pageable = PageRequest.of(searchRequest.getCurrentPage() - 1, searchRequest.getPageSize(), sort);
-        Page<Question> questions = questionRepository.findAllBySearchRequest(searchRequest.getKeyword(), searchRequest.getQuizId(), pageable);
+        Page<Question> questions = questionRepository.findAllBySearchRequest(searchRequest.getKeyword(), searchRequest.getSubjectId(), pageable);
 
         List<QuestionResponse> responses = mapper.toQuestionResponse(questions.getContent());
         MetaDataResponse metaDataResponse = MetaDataHelper.buildMetaData(questions, searchRequest);

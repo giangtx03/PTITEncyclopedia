@@ -11,8 +11,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.concurrent.TimeUnit;
 
-//@Service("redis")
-//@Primary
+@Service("redis")
+@Primary
 @RequiredArgsConstructor
 public class RedisLimitServiceImpl implements LimitService {
     private final RedisTemplate<String, Object> redisTemplate;

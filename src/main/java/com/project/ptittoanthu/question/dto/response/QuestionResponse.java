@@ -1,6 +1,7 @@
 package com.project.ptittoanthu.question.dto.response;
 
 import com.project.ptittoanthu.common.base.dto.BaseResponse;
+import com.project.ptittoanthu.subjects.dto.response.SubjectResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,4 +19,5 @@ public class QuestionResponse extends BaseResponse {
     private Integer id;
     private String content;
     private List<OptionResponseDetail> options;
+    private SubjectResponse subject;
 }
