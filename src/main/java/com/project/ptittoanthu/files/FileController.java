@@ -19,6 +19,7 @@ import java.nio.file.Path;
 @RequestMapping("${api.prefix}")
 public class FileController {
 
+    private final String TEMPLATE_FILE = "template.xlsx";
     private final FileDownloadService fileDownloadService;
 
     @GetMapping("/images/{fileName}")
@@ -34,6 +35,22 @@ public class FileController {
     public ResponseEntity<?> getFile(@PathVariable("fileName") String fileName)
             throws IOException {
         Resource source = fileDownloadService.getResourceFile(fileName, FileType.DOCUMENT);
+        Path path = source.getFile().toPath();
+        String contentType = Files.probeContentType(path);
+
+        if (contentType == null) {
+            contentType = "application/octet-stream";
+        }
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType(contentType))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "inline; filename=\"" + source.getFilename() + "\"")
+                .body(source);
+    }
+
+    @GetMapping("/files/template")
+    public ResponseEntity<?> getTemplate()
+            throws IOException {
+        Resource source = fileDownloadService.getResourceFile(TEMPLATE_FILE, FileType.DOCUMENT);
         Path path = source.getFile().toPath();
         String contentType = Files.probeContentType(path);
 

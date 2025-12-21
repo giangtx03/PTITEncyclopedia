@@ -113,7 +113,7 @@ public class QuizResultServiceImpl implements QuizResultService {
                 .filter(item -> item.getSelected().isCorrect()) // đáp án đúng
                 .count();
 
-        return (float) correctCount / size.getNumberOfQuestions();
+        return (float) correctCount / size.getNumberOfQuestions() * 10;
     }
 
 

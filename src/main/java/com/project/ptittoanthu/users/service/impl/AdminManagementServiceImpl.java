@@ -2,10 +2,14 @@ package com.project.ptittoanthu.users.service.impl;
 
 import com.project.ptittoanthu.common.base.dto.MetaDataResponse;
 import com.project.ptittoanthu.common.base.dto.PageResult;
+import com.project.ptittoanthu.common.base.dto.SearchRequest;
 import com.project.ptittoanthu.common.helper.MetaDataHelper;
 import com.project.ptittoanthu.common.helper.SortHelper;
+import com.project.ptittoanthu.common.util.SecurityUtils;
 import com.project.ptittoanthu.configs.db.FilterInterceptor;
+import com.project.ptittoanthu.subjects.dto.response.SubjectResponse;
 import com.project.ptittoanthu.subjects.exception.SubjectNotFoundException;
+import com.project.ptittoanthu.subjects.mapper.SubjectMapper;
 import com.project.ptittoanthu.subjects.model.Subject;
 import com.project.ptittoanthu.subjects.repository.SubjectRepository;
 import com.project.ptittoanthu.users.dto.SearchUserRequest;
@@ -35,6 +39,7 @@ public class AdminManagementServiceImpl implements AdminManagementService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
     private final SubjectRepository subjectRepository;
+    private final SubjectMapper subjectMapper;
     private final FilterInterceptor filterInterceptor;
 
     @Override
@@ -99,5 +104,21 @@ public class AdminManagementServiceImpl implements AdminManagementService {
 
         user.getSubjects().remove(subject);
         userRepository.save(user);
+    }
+
+    @Override
+    public PageResult<List<SubjectResponse>> getTheSubjectsOfTeacher(Integer teacherId, SearchRequest request) {
+        Sort sort = SortHelper.buildSort(request.getOrder(), request.getDirection());
+        Pageable pageable = PageRequest.of(request.getCurrentPage() - 1, request.getPageSize(), sort);
+
+        Page<Subject> page = subjectRepository.findAllByTeacherRequest(teacherId, request.getKeyword(), pageable);
+
+        MetaDataResponse metaDataResponse = MetaDataHelper.buildMetaData(page, request);
+        List<SubjectResponse> responses = page.getContent().stream()
+                .map(subjectMapper::toSubjectResponse).toList();
+        return PageResult.<List<SubjectResponse>>builder()
+                .metaDataResponse(metaDataResponse)
+                .data(responses)
+                .build();
     }
 }

@@ -4,8 +4,10 @@ import com.project.ptittoanthu.common.base.builder.ResponseBuilder;
 import com.project.ptittoanthu.common.base.dto.PageResponseDto;
 import com.project.ptittoanthu.common.base.dto.PageResult;
 import com.project.ptittoanthu.common.base.dto.ResponseDto;
+import com.project.ptittoanthu.common.base.dto.SearchRequest;
 import com.project.ptittoanthu.common.base.enums.StatusCodeEnum;
 import com.project.ptittoanthu.infra.language.LanguageService;
+import com.project.ptittoanthu.subjects.dto.response.SubjectResponse;
 import com.project.ptittoanthu.users.dto.SearchUserRequest;
 import com.project.ptittoanthu.users.dto.request.UpdateUserRequest;
 import com.project.ptittoanthu.users.dto.response.UserResponseDetail;
@@ -123,6 +125,25 @@ public class AdminController {
         ResponseDto<Void> responseDto = ResponseBuilder.okResponse(
                 statusCodeEnum.code,
                 languageService.getMessage(statusCodeEnum.message)
+        );
+        return ResponseEntity
+                .status(statusCodeEnum.httpStatusCode)
+                .body(responseDto);
+    }
+
+    @GetMapping("/users/{teacherId}/subjects")
+    public ResponseEntity<PageResponseDto<List<SubjectResponse>>> getTheSubjectsOfTeacher(
+            @PathVariable Integer teacherId,
+            @Valid @ParameterObject SearchRequest searchRequest
+    ) {
+        PageResult<List<SubjectResponse>> result = adminManagementService.getTheSubjectsOfTeacher(teacherId, searchRequest);
+
+        StatusCodeEnum statusCodeEnum = StatusCodeEnum.REQUEST_SUCCESSFULLY;
+
+        PageResponseDto<List<SubjectResponse>> responseDto = ResponseBuilder.okResponse(
+                statusCodeEnum.code,
+                languageService.getMessage(statusCodeEnum.message),
+                result
         );
         return ResponseEntity
                 .status(statusCodeEnum.httpStatusCode)
